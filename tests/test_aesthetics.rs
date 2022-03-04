@@ -8,7 +8,8 @@
     unused_macros,
     unused_assignments,
     unused_mut,
-    non_snake_case
+    non_snake_case,
+    non_upper_case_globals
 )]
 
 // 3rd party
@@ -21,14 +22,16 @@ use rstest::*;
 use core_dev::aesthetics::asciify_str;
 use pretty_assertions::assert_eq;
 
-use core_dev::aesthetics::ansi_constant;
+use core_dev::aesthetics::ansi;
+
 
 
 #[test]
 fn test_asciify_str() {
     let result = asciify_str("salutare", None).unwrap();
     println!("{}", result);
-    println!("{}text{}", ansi_constant.black, ansi_constant.endc);
+    println!("{}text{}", ansi.red, ansi.endc);
+    println!("{}text{}", ansi.red, ansi.endc);
 
 
     // sublime format imi sterge liniile de dupa _    _

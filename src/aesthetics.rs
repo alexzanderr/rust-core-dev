@@ -1,7 +1,7 @@
 //!
 //! some quick docs about this module
 //!
-//! core/aesthetics.py
+//! src/aesthetics.rs
 //!
 //! useful and fancy design in terminal
 //!
@@ -10,11 +10,24 @@
 //!     - color asciified text
 //!     - color normal text
 //!
-//! author: @alexzander
+//! author: @alexzanderr
 //!
 //!
 //!
 //!
+
+
+#![allow(
+    dead_code,
+    unused_imports,
+    unused_variables,
+    unused_macros,
+    unused_assignments,
+    unused_mut,
+    unused_must_use,
+    non_snake_case,
+    non_upper_case_globals
+)]
 
 
 use std::fmt;
@@ -57,7 +70,7 @@ const IMPRESSIVE_FONTS: [&str; 29] = [
     "weird"
 ];
 
-#[derive(Debug)] // derive std::fmt::Debug on FondNotFoundError
+#[derive(Debug)] // derive std::fmt::Debug on FontNotFoundError
 pub struct FontNotFoundError {
     code: usize,
     message: String,
@@ -75,8 +88,10 @@ impl fmt::Display for FontNotFoundError {
     }
 }
 
+type FontResult = Result<(), FontNotFoundError>;
+
 fn throw_font_not_found_error()
-    -> Result<(), FontNotFoundError> {
+    -> FontResult {
     Err(FontNotFoundError {
         code: 404,
         message: String::from("Page not found"),
@@ -85,15 +100,17 @@ fn throw_font_not_found_error()
 
 
 
-enum Strings<'enum_lifetime> {
-    Static(&'enum_lifetime str),
+enum Strings<'StringsLifetime> {
+    Static(&'StringsLifetime str),
     String(String)
 }
+
+type StringResult = Result<String, FontNotFoundError>;
 
 fn _asciify(
     _text: Strings,
     _font: Option<Strings>
-) -> Result<String, FontNotFoundError>
+) -> StringResult
 {
     let text: String = match _text {
         Strings::Static(_text) => String::from(_text),
@@ -178,6 +195,8 @@ pub struct BackSlashNMissingError {
 }
 
 
+
+
 impl fmt::Display for BackSlashNMissingError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let err_msg = match self.code {
@@ -242,7 +261,7 @@ pub fn shift_right_asciified_string(
 
 
 
-fn _shift_left_asciified(
+fn _shift_left_asciifiied_text(
     _asciified_text: Strings,
     size: usize
 ) -> Result<String, Box<dyn error::Error>>
@@ -268,27 +287,27 @@ fn _shift_left_asciified(
 }
 
 
-pub struct Ansi {
-    pub black: &'static str,
-    pub magenta: &'static str,
-    pub cyan: &'static str,
-    pub white: &'static str,
-    pub red: &'static str,
-    pub green: &'static str,
-    pub yellow: &'static str,
-    pub blue: &'static str,
-    pub purple: &'static str,
-    pub erase: &'static str,
-    pub bold: &'static str,
-    pub italic: &'static str,
-    pub underline: &'static str,
-    pub endc: &'static str,
-    pub inverse: &'static str,
-    pub strikeout: &'static str,
+pub struct ANSITerm<'ansi_lifetime> {
+    pub black: &'ansi_lifetime str,
+    pub magenta: &'ansi_lifetime str,
+    pub cyan: &'ansi_lifetime str,
+    pub white: &'ansi_lifetime str,
+    pub red: &'ansi_lifetime str,
+    pub green: &'ansi_lifetime str,
+    pub yellow: &'ansi_lifetime str,
+    pub blue: &'ansi_lifetime str,
+    pub purple: &'ansi_lifetime str,
+    pub erase: &'ansi_lifetime str,
+    pub bold: &'ansi_lifetime str,
+    pub italic: &'ansi_lifetime str,
+    pub underline: &'ansi_lifetime str,
+    pub endc: &'ansi_lifetime str,
+    pub inverse: &'ansi_lifetime str,
+    pub strikeout: &'ansi_lifetime str,
 }
 
-const fn get_ansi() -> Ansi {
-    Ansi {
+const fn initialize_ansi_term() -> ANSITerm<'static> {
+    ANSITerm {
         black: "\x1b[30m",
         magenta: "\x1b[35m",
         cyan: "\x1b[36m",
@@ -308,29 +327,20 @@ const fn get_ansi() -> Ansi {
     }
 }
 
-pub const ansi_constant: Ansi = get_ansi();
+pub const ansi: ANSITerm = initialize_ansi_term();
 
-#[cfg(tests)]
+
+
+
+
+#[cfg(test)]
 mod tests {
-    use super::_shift_left_asciified_text;
-    use super::ansi_constant;
+    use super::ansi;
 
 
     #[test]
     fn test_asciify_str() {
-        println!("'{}'", ansi_constant.black);
+        println!("'{}'asd asdasd{}", ansi.red, ansi.endc);
         assert_eq!(0, 0);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-

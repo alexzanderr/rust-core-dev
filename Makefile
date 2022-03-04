@@ -31,8 +31,10 @@ rr:
 
 
 t:
-	cargo test -- --show-output
+	cargo test -j 8 -- --show-output
 
+test:
+	cargo test -j 8 -- --show-output
 
 flow:
 	@cargo run --example flow_control --quiet
