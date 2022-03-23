@@ -1,0 +1,9 @@
+
+
+
+[env]
+RUST_BACKTRACE = "full"
+# RUST_LIB_BACKTRACE = "full"
+COLORBT_SHOW_HIDDEN = "1"
+# RUST_SPANTRACE = "0"
+# RUST_LIB_BACKTRACE = "1"
