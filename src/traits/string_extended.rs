@@ -9,6 +9,8 @@ pub trait StringExtended {
 
     fn split_to_vec_string(&self, pattern: &str) -> Vec<String>;
 
+    fn split_to_vec_str(&self, pattern: &str) -> Vec<&str>;
+
 
     /// get_char -> get the character at a specified position
     /// since you cant do this: `string[index]`
@@ -30,6 +32,11 @@ impl StringExtended for String {
 
     fn split_to_vec_string(&self, pattern: &str) -> Vec<String> {
         self.split(pattern).map(|s| s.to_string()).collect()
+    }
+
+
+    fn split_to_vec_str(&self, pattern: &str) -> Vec<&str> {
+        self.split(pattern).collect()
     }
 
 
@@ -55,6 +62,10 @@ impl StringExtended for &str {
 
     fn split_to_vec_string(&self, pattern: &str) -> Vec<String> {
         self.split(pattern).map(|s| s.to_string()).collect()
+    }
+
+    fn split_to_vec_str(&self, pattern: &str) -> Vec<&str> {
+        self.split(pattern).collect()
     }
 
 

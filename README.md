@@ -5,6 +5,10 @@
     <a href="https://choosealicense.com/licenses/mit/" alt="License: MIT">
         <img src="https://img.shields.io/badge/license-MIT-green.svg" />
     </a>
+    <br>
+    <a href="https://www.rust-lang.org">
+        <img src="https://img.shields.io/badge/rustc-1.60+-yellow?logo=rust">
+    </a>
 </p>
 
 

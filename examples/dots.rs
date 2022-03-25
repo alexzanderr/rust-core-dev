@@ -26,16 +26,24 @@ fn main() {
     let termination_message = "done here".to_string();
 
     let iterations = 32;
-    let closure = move || {
+    let closure = Box::new(move || {
         worker(iterations);
-    };
+        String::from("its working");
+        Err("salutare")
+    }.unwrap());
 
-    SpinnerDotsThread::run_default(closure);
-    SpinnerDotsThread::run_with_args(
-        message,
-        closure,
-        termination_message,
-    );
+
+
+    let result = SpinnerDotsThread::<String>::run_default(closure.clone());
+    if let Err(result) = result {
+        println!("{}", result);
+    }
+    // let result = SpinnerDotsThread::<String>::run_with_args(
+    //     message,
+    //     closure,
+    //     termination_message,
+    // );
+    // println!("{:?}", result.err());
 
     // let spinner = SpinnerDotsThread::new(
     //     "📦 loading ... ".to_string(),

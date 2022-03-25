@@ -303,5 +303,10 @@ lines";
             let capitalized = some_string.capitalize();
             assert_eq!(capitalized, "Rust is great");
         }
+
+        #[test]
+        fn failed() {
+            assert_eq!(true, true);
+        }
     }
 }

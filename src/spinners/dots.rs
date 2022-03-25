@@ -7,8 +7,9 @@ use ansi_term::Colour::{
     Purple,
     Cyan,
     Fixed,
-    RGB
+    RGB,
 };
+use bevy_reflect::erased_serde::Result;
 use hex_color::HexColor;
 use ansi_term::Style;
 
@@ -20,28 +21,52 @@ use std::time::Duration;
 use std::io::stdout;
 use std::io::Write;
 
-use std::thread;
+use std::error;
+use std::result;
 
+use std::thread;
+use std::fmt;
+
+#[derive(Debug)]
+pub struct SpinnerClosureError;
+
+// https://learning-rust.github.io/docs/e7.custom_error_types.html
+// https://www.philipdaniels.com/blog/2019/defining-rust-error-types/
+impl error::Error for SpinnerClosureError {
+    fn description(&self) -> &str {
+        "something went wrong inside the closure"
+    }
+}
+
+impl fmt::Display for SpinnerClosureError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "something went wrong inside the closure")
+    }
+}
+
+
+type SpinnerClosure<T> = Box<dyn FnOnce() -> T + Send + 'static>;
+type SpinnerClosureResult<T> = result::Result<T, SpinnerClosureError>;
 
 // https://stackoverflow.com/questions/25649423/sending-trait-objects-between-threads-in-rust
-pub struct SpinnerDotsThread<'a, F>
+pub struct SpinnerDotsThread<'a, T>
 where
-    F: Fn() -> () + Send + 'static, {
+    T: Send + 'static, {
     frames:              [&'a str; 10],
-    _function:           F,
+    _function:           SpinnerClosure<T>,
     message:             String,
     termination_message: String,
 }
 
-impl<'a, F> SpinnerDotsThread<'a, F>
+impl<'a, T> SpinnerDotsThread<'a, T>
 where
-    F: Fn() -> () + Send + 'static,
+    T: Send + 'static,
 {
     pub fn new(
         message: String,
-        _function: F,
+        _function: SpinnerClosure<T>,
         termination_message: String,
-    ) -> SpinnerDotsThread<'a, F> {
+    ) -> SpinnerDotsThread<'a, T> {
         SpinnerDotsThread {
             frames: ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"],
             _function,
@@ -50,37 +75,37 @@ where
         }
     }
 
-    pub fn run_default(_function: F) {
+    pub fn run_default(
+        _function: SpinnerClosure<T>,
+    ) -> SpinnerClosureResult<T> {
         let yellow_package = Yellow.paint("📦");
         let green_successfully = Green.paint("successfully");
         let running_message = format!("{yellow_package} loading ... ");
         let termination_message =
             format!("{yellow_package} terminated {green_successfully}");
-        let spinner = SpinnerDotsThread::new(
+
+        SpinnerDotsThread::run_with_args(
             running_message,
             _function,
             termination_message,
-        );
-        spinner.execute();
+        )
     }
 
     pub fn run_with_args(
         message: String,
-        _function: F,
+        _function: SpinnerClosure<T>,
         termination_message: String,
-    ) {
+    ) -> SpinnerClosureResult<T> {
         let spinner = SpinnerDotsThread::new(
             message,
             _function,
             termination_message,
         );
-        spinner.execute();
+        spinner.execute()
     }
 
-    pub fn execute(self) {
-        let handle = thread::spawn(move || {
-            (self._function)();
-        });
+    pub fn execute(self) -> SpinnerClosureResult<T> {
+        let handle = thread::spawn(move || (self._function)());
 
         // very nice color: #2666
         // let cyan: HexColor = "#999999".parse().unwrap();
@@ -95,5 +120,10 @@ where
             _iter += 1;
         }
         println!("{}", self.termination_message);
+        let result = handle.join();
+        match result {
+            Ok(result) => Ok(result),
+            Err(err) => Err(SpinnerClosureError)
+        }
     }
 }

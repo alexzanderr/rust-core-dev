@@ -10,3 +10,8 @@ pub mod collections;
 pub mod traits;
 pub mod pathlib;
 pub mod spinners;
+pub mod random;
+pub mod icons;
+pub mod stringlib;
+pub mod algorithms;
+pub mod shell;
