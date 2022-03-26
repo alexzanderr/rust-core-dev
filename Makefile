@@ -36,6 +36,9 @@ t:
 test:
 	cargo test -j 8 -- --show-output
 
+test_private:
+	cargo test -j 8 --lib -- --show-output
+
 flow:
 	@cargo run --example flow_control --quiet
 

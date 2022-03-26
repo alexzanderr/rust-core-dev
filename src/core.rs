@@ -2,6 +2,8 @@ use std::io;
 use std::fs::File;
 use std::path::Path;
 use std::io::BufRead;
+use std::time::{Duration, Instant};
+
 
 
 /// pub fn read_lines<P>(filename: P) -> Vec<String>
@@ -32,5 +34,21 @@ pub fn read_lines<P: AsRef<Path>>(filename: P) -> Vec<String> {
 }
 
 
+pub fn get_execution_time<F>(_function: F) -> Duration
+where
+    F: Fn() -> (), {
+    let execution = Instant::now();
+    _function();
+    execution.elapsed()
 
+}
 
+pub fn print_execution_time<F>(_function: F)
+where
+    F: Fn() -> (), {
+    let start = Instant::now();
+    _function();
+    let duration = start.elapsed();
+
+    println!("Time elapsed in _function() is: {:?}", duration);
+}

@@ -15,3 +15,4 @@ pub mod icons;
 pub mod stringlib;
 pub mod algorithms;
 pub mod shell;
+pub mod datetime;

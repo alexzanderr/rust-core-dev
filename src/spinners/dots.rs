@@ -38,11 +38,14 @@ impl error::Error for SpinnerClosureError {
     }
 }
 
+
 impl fmt::Display for SpinnerClosureError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "something went wrong inside the closure")
     }
 }
+
+
 
 
 type SpinnerClosure<T> = Box<dyn FnOnce() -> T + Send + 'static>;
