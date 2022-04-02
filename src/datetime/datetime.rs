@@ -1,5 +1,8 @@
 #![allow(non_snake_case)]
 
+use super::time_attributes::TimeAttributesBuilder;
+use super::time_attributes::TimeAttributes;
+
 use std::collections::BTreeSet;
 // std imports
 use std::collections::HashMap;
@@ -10,6 +13,7 @@ use lazy_static::lazy_static;
 
 // 3rd party tz and tzdb (related)
 use tz;
+use tz::TimeZoneRef;
 use tzdb::time_zone;
 
 // 3rd party chrono
@@ -501,29 +505,6 @@ const TIME_INTERVALS: [&'static str; 9] = [
     "seconds",
 ];
 
-use std::collections::BTreeMap;
-
-
-#[derive(Default)]
-pub struct TimeAttributes {
-    pub millennials: usize,
-    pub centuries:   usize,
-    pub decades:     usize,
-    pub years:       usize,
-    pub weeks:       usize,
-    pub days:        usize,
-    pub hours:       usize,
-    pub minutes:     usize,
-    pub seconds:     usize,
-}
-
-
-impl std::fmt::Display for TimeAttributes {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.write_str("3h 3m 3s")
-    }
-}
-
 
 pub const TIME_INTERVALS_AS_SECONDS: [(&'static str, i128); 9] = [
     ("millennia", 60 * 60 * 24 * 365 * 1000),
@@ -573,6 +554,8 @@ pub fn seconds_to_time_map<'a>(
     // dbg!(&time_intervals_values);
     time_intervals_values
 }
+
+
 
 
 #[cfg(test)]

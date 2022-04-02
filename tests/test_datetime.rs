@@ -13,6 +13,42 @@ mod test_module_datetime {
     /// cargo test --features <feature_name>
 
     #[cfg(test)]
+    mod time_attributes_builder {
+        use super::rstest;
+        use super::assert_eq;
+        use super::assert_ne;
+        use core_dev::datetime::time_attributes::TimeAttributesBuilder;
+
+        #[test]
+        fn build() {
+            let ta_builder = TimeAttributesBuilder::default()
+                .seconds(10)
+                .minutes(100)
+                .normalize();
+
+
+            let mut ta = ta_builder.build();
+            println!("{:?}", ta);
+            // ta.normalize();
+            println!("{}", ta.format());
+            // ta.decrement_seconds(50);
+            // println!("{}", ta.format());
+            // println!("{}", ta.format_as_clock());
+        }
+
+        #[test]
+        fn against_6010_seconds() {
+            let ta = TimeAttributesBuilder::default()
+                .seconds(6010)
+                .normalize().build();
+            assert_eq!(ta.seconds, 10);
+            assert_eq!(ta.minutes, 40);
+            assert_eq!(ta.hours, 1);
+
+        }
+    }
+
+    #[cfg(test)]
     mod function_seconds_to_time_map {
         use super::rstest;
         use super::assert_eq;

@@ -1,4 +1,10 @@
-#![allow(non_snake_case, non_upper_case_globals)]
+#![allow(
+    non_snake_case,
+    non_upper_case_globals,
+    unused_imports,
+    unused_mut,
+    unused_must_use
+)]
 #![feature(unboxed_closures)]
 #![feature(thread_is_running)]
 #![feature(trait_alias)]
@@ -35,3 +41,5 @@ pub mod audio;
 
 
 pub mod terminal;
+
+pub mod linuxapi;

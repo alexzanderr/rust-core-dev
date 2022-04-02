@@ -39,6 +39,9 @@ test:
 test_private:
 	cargo test -j 8 --lib -- --show-output
 
+test_datetime:
+	cargo test -q --test=test_datetime -j 8 --features datetime -- --show-output
+
 flow:
 	@cargo run --example flow_control --quiet
 
