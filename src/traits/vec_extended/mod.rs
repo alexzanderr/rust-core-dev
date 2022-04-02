@@ -1,5 +1,3 @@
-
-
 mod index_of_trait;
 pub use index_of_trait::IndexOfVector;
 

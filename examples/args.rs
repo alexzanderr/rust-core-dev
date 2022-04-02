@@ -1,6 +1,3 @@
-
-
-
 use std::env;
 
 fn increase(_integer: &mut i32) {
@@ -12,7 +9,6 @@ fn decrease(_integer: &mut i32) {
 }
 
 fn main() {
-
     let args: Vec<String> = env::args().collect();
     println!("{:?}", args);
 

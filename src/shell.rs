@@ -1,4 +1,3 @@
-
 use std::process::Command;
 
 pub fn get_stdout_in_zsh(command: &str) -> String {

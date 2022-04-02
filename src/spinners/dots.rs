@@ -9,7 +9,6 @@ use ansi_term::Colour::{
     Fixed,
     RGB,
 };
-use bevy_reflect::erased_serde::Result;
 use hex_color::HexColor;
 use ansi_term::Style;
 
@@ -44,8 +43,6 @@ impl fmt::Display for SpinnerClosureError {
         write!(f, "something went wrong inside the closure")
     }
 }
-
-
 
 
 type SpinnerClosure<T> = Box<dyn FnOnce() -> T + Send + 'static>;
@@ -126,7 +123,7 @@ where
         let result = handle.join();
         match result {
             Ok(result) => Ok(result),
-            Err(err) => Err(SpinnerClosureError)
+            Err(err) => Err(SpinnerClosureError),
         }
     }
 }

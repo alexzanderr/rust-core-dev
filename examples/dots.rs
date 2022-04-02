@@ -21,17 +21,19 @@ fn worker(iterations: i32) -> i32 {
 
 fn main() {
     _color_backtrace_install();
-    
+
     let message = "random message ...".to_string();
     let termination_message = "done here".to_string();
 
     let iterations = 32;
     let closure = Box::new(move || {
-        worker(iterations);
-        String::from("its working");
-        Err("salutare")
-    }.unwrap());
-
+        {
+            worker(iterations);
+            String::from("its working");
+            Err("salutare")
+        }
+        .unwrap()
+    });
 
 
     let result = SpinnerDotsThread::<String>::run_default(closure.clone());

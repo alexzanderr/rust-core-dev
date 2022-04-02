@@ -13,23 +13,39 @@ keywords = ["core", "development", "api"]
 categories = ["accessibility"]
 
 
+[dependencies.reqwest]
+version = "0.11.9"
+features = ["blocking"]
+optional = true
+
+[dependencies.doc-comment]
+version = "0.3.3"
+optional = true
+
+
 
 [dependencies]
-reqwest = { version = "0.11.9", features = ["blocking"] }
-doc-comment = "0.3.3"
-default-args = "1.0.0"
-globwalk = "0.8.1"
-color-backtrace = "0.5.1"
-color-eyre = "0.6.1"
-ansi_term = { version = "0.12.1", features = [ "derive_serde_style", "serde" ] }
-ansi-hex-color = "0.1.1"
-hex_color = "1.0.0"
-rand = "0.8.5"
-bevy_reflect = "0.6.0"
-bincode = "1.3.3"
-string_template = "0.2.1"
-chrono = "0.4.19"
 
+default-args = { version = "1.0.0", optional = true }
+globwalk = { version = "0.8.1", optional = true }
+color-backtrace = { version = "0.5.1", optional = true }
+color-eyre = { version = "0.6.1", optional = true }
+ansi_term = { version = "0.12.1", features = [ "derive_serde_style", "serde" ], optional = true }
+ansi-hex-color = { version = "0.1.1", optional = true }
+hex_color = { version = "1.0.0", optional = true }
+rand = { version = "0.8.5", optional = true }
+bincode = { version = "1.3.3", optional = true }
+string_template = { version = "0.2.1", optional = true }
+
+
+rodio = { version = "0.15.0", optional = true }
+
+# datetime
+chrono = { version = "0.4.19", optional = true }
+tz-rs = { version = "0.6.7", optional = true }
+tzdb = { version = "0.2.0", optional = true }
+ctrlc = { version = "3.2.1", features = ["termination"] }
+lazy_static = "1.4.0"
 
 [lib]
 name = "core_dev"
@@ -38,3 +54,33 @@ name = "core_dev"
 [dev-dependencies]
 rstest = "0.12.0"
 pretty_assertions = "1.1.0"
+
+[features]
+default = []
+datetime = ["chrono", "tz-rs", "tzdb"]
+algorithms = []
+pathlib = []
+random = []
+aesthetics = []
+spinners = []
+time = []
+terminal = []
+all = [
+    "terminal",
+    "datetime",
+    "algorithms",
+    "pathlib",
+    "random",
+    "aesthetics",
+    "spinners",
+    "time",
+]
+
+
+
+
+[profile.release]
+# Link-time optimization (LTO) is a whole-program optimization technique that can improve runtime performance by 10-20% or more, at the cost of increased build times. For any individual Rust program it is easy to see if the runtime versus compile-time trade-off is worthwhile.
+# The simplest way to try LTO is to add the following lines to the Cargo.toml file and do a release build.
+lto = true
+

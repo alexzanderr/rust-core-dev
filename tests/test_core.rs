@@ -1,5 +1,3 @@
-
-
 #[cfg(test)]
 mod test_get_execution_time {
 

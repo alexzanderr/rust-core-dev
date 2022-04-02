@@ -1,6 +1,3 @@
-
-
-
 mod vec_extended;
 pub use vec_extended::IndexOfVector;
 pub use vec_extended::MaxVector;

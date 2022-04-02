@@ -9,6 +9,10 @@
     <a href="https://www.rust-lang.org">
         <img src="https://img.shields.io/badge/rustc-1.60+-yellow?logo=rust">
     </a>
+    <br>
+    <a href="https://www.rust-lang.org">
+        <img src="https://img.shields.io/maintenance/yes/2022">
+    </a>
 </p>
 
 
@@ -17,7 +21,19 @@
 `core` library is an utility library for rust. It contains a lot of useful functions and APIs to speed up development cycle.
 
 
+
 # Showcases
+<details>
+<summary>
+Click to show Cargo.toml.
+</summary>
+
+```toml
+[dependencies]
+crossterm = "0.23"
+```
+
+</details>
 1. [`incoming`] -> incoming
 2. [`incoming`] -> incoming
 
@@ -37,3 +53,4 @@ check [`CONTRIBUTING.md`](https://github.com/alexzanderr/rust-core-dev/blob/main
 
 # NOTE
 very early and experimental. im at the same time learning rust, so dont expect very advanced stuff.
+

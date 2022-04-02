@@ -1,5 +1,3 @@
-
-
 use string_template::Template;
 use std::collections::HashMap;
 
@@ -14,5 +12,4 @@ fn main() {
 
     let s = template.render(&args);
     println!("{}", s);
-
 }

@@ -1,4 +1,3 @@
-
 use std::str::Split;
 use core_dev::collections::TreeNode;
 use core_dev::traits::StringExtended;
@@ -17,7 +16,7 @@ fn main() {
     let mut leaves = Vec::new();
     for int in (0..5i32).rev() {
         leaves.push(TreeNode {
-            name: int.to_string() + "luigi",
+            name:  int.to_string() + "luigi",
             path:  format!("./{}/README.md", int.to_string() + "luigi"),
             nodes: None,
         });
@@ -33,7 +32,7 @@ fn main() {
     let mut leaves = Vec::new();
     for int in (0..5i32).rev() {
         leaves.push(TreeNode {
-            name: int.to_string() + "mario",
+            name:  int.to_string() + "mario",
             path:  format!("./{}/README.md", int.to_string() + "luigi"),
             nodes: None,
         });
@@ -78,7 +77,6 @@ fn main() {
     //         readme.md
 
 
-
     // astea trebuie neaparat sa fie in ordinea astsa
     // fara / primele
     // dupa toate readme in ordine
@@ -87,7 +85,6 @@ fn main() {
         // TODO find a method to insert all the items with non slash on their original positions
         String::from("introduction.md"),
         // dai collect la toate si le sortezi dupa depth of slash
-
         String::from("python_list/methods/extend.md"),
         String::from("python_list/methods/append/python_bool.md"),
         String::from("python_list/macros/list_macro.md"),
@@ -110,11 +107,12 @@ fn main() {
         }
     }
 
-    all_readmes.sort_by_key(|item| item.split("/").collect::<Vec<&str>>().len());
+    all_readmes
+        .sort_by_key(|item| item.split("/").collect::<Vec<&str>>().len());
 
     for line in lines.iter() {
         if line.contains("README.md") {
-            continue
+            continue;
         }
         if line.contains("/") {
             all_readmes.push(line.clone());
@@ -141,21 +139,18 @@ fn main() {
                     let new_node = TreeNode::new(
                         item.clone(),
                         "./".to_string() + &items.join("/"),
-                        Some(vec![])
+                        Some(vec![]),
                     );
                     root.add_node(new_node);
                     root.find_node(&item).unwrap()
-                }
+                },
             };
             build_tree(&mut new_node, items, index + 1);
         }
     }
 
-    let mut root = TreeNode::new(
-        "head".to_string(),
-        "---".to_string(),
-        Some(vec![]),
-    );
+    let mut root =
+        TreeNode::new("head".to_string(), "---".to_string(), Some(vec![]));
 
 
     for line in all_readmes {
@@ -164,17 +159,10 @@ fn main() {
             build_tree(&mut root, &items, 0);
         } else {
             if let Some(nodes) = &mut root.nodes {
+                let title =
+                    line.split(".").collect::<Vec<&str>>()[0].capitalize();
 
-                let title = line
-                    .split(".")
-                    .collect::<Vec<&str>>()
-                    [0]
-                    .capitalize();
-
-                nodes.push(TreeNode::new(
-                    title,
-                line.clone(),
-                None));
+                nodes.push(TreeNode::new(title, line.clone(), None));
             }
         }
     }
@@ -184,14 +172,9 @@ fn main() {
             for node in nodes {
                 let item = &node.name;
                 let formatted_name = if item.contains(".") {
-                    item
-                        .split(".")
-                        .collect::<Vec<&str>>()
-                        [0]
-                        .capitalize()
+                    item.split(".").collect::<Vec<&str>>()[0].capitalize()
                 } else if item.contains("_") {
-                    item
-                        .split("_")
+                    item.split("_")
                         .map(|s| s.capitalize())
                         .collect::<Vec<String>>()
                         .join(" ")
@@ -211,5 +194,4 @@ fn main() {
 
     let summ = root.generate_summary_string();
     println!("{}", summ);
-
 }

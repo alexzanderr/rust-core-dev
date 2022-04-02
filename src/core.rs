@@ -2,8 +2,10 @@ use std::io;
 use std::fs::File;
 use std::path::Path;
 use std::io::BufRead;
-use std::time::{Duration, Instant};
-
+use std::time::{
+    Duration,
+    Instant,
+};
 
 
 /// pub fn read_lines<P>(filename: P) -> Vec<String>
@@ -40,7 +42,6 @@ where
     let execution = Instant::now();
     _function();
     execution.elapsed()
-
 }
 
 pub fn print_execution_time<F>(_function: F)
@@ -51,4 +52,11 @@ where
     let duration = start.elapsed();
 
     println!("Time elapsed in _function() is: {:?}", duration);
+}
+
+
+pub fn set_keyboard_interrupt_handler<F>(_function: F)
+where
+    F: Fn() -> () + Send + 'static, {
+    ctrlc::set_handler(_function).unwrap()
 }

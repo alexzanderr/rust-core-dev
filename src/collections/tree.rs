@@ -4,7 +4,7 @@
 type NodesOption = Option<Vec<TreeNode>>;
 
 pub struct TreeNode {
-    pub name: String,
+    pub name:  String,
     pub path:  String,
     pub nodes: NodesOption,
 }
@@ -16,11 +16,7 @@ impl PartialEq for TreeNode {
 }
 
 impl TreeNode {
-    pub fn new(
-        name: String,
-        path: String,
-        nodes: NodesOption,
-    ) -> Self {
+    pub fn new(name: String, path: String, nodes: NodesOption) -> Self {
         Self {
             name,
             path,
@@ -115,7 +111,6 @@ impl TreeNode {
         }
         result
     }
-
 
     pub fn generate_summary(&self, level: usize) -> Vec<String> {
         let mut summary_vec = Vec::new();

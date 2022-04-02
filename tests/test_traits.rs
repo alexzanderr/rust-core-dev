@@ -105,7 +105,6 @@ mod index_of_vector_trait {
             assert_eq!(found_index, expected_index);
         }
     }
-
 }
 
 #[cfg(test)]

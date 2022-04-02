@@ -1,7 +1,4 @@
-
-
-
-fn get_vector() -> Vec<String>{
+fn get_vector() -> Vec<String> {
     let mut new_vector: Vec<String> = Vec::new();
 
 
@@ -22,5 +19,4 @@ fn main() {
     println!("{:?}", some_vec);
     some_vec.extend(vec!["hi".to_string()]);
     println!("{:?}", some_vec);
-
 }

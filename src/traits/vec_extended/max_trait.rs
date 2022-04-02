@@ -1,9 +1,3 @@
-
-
-
-
-
-
 pub trait MaxVector<T> {
     fn get_max(&self) -> Option<T>;
 }

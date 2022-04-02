@@ -1,5 +1,3 @@
-
-
 pub trait BinarySearch<T> {
     fn binary_search(&self, element: T) -> Option<usize>;
 }

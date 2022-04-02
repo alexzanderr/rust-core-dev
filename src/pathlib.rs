@@ -1,5 +1,3 @@
-
-
 use globwalk;
 
 use std::path::Path;
@@ -10,11 +8,10 @@ use std::fs;
 pub fn get_files_recursive<P>(
     target_folder: P,
     relative_to_cwd: bool,
-    to_ignore: Option<&Vec<&str>>
+    to_ignore: Option<&Vec<&str>>,
 ) -> Vec<String>
-where P: AsRef<Path>
-{
-
+where
+    P: AsRef<Path>, {
     let target_folder = target_folder.as_ref().display().to_string();
     let mut found_dot = false;
     let glob_pattern: String;
@@ -42,7 +39,8 @@ where P: AsRef<Path>
                 if let Some(to_ignore_vec) = &to_ignore {
                     let mut entry_parts = entry.split_to_vec_string("/");
                     if entry_parts.len() >= 2 {
-                        entry_parts = entry_parts[..entry_parts.len() - 1].to_vec();
+                        entry_parts =
+                            entry_parts[..entry_parts.len() - 1].to_vec();
                     }
 
                     let mut shall_continue = false;
@@ -62,7 +60,7 @@ where P: AsRef<Path>
                     }
 
                     if shall_continue {
-                        continue
+                        continue;
                     }
                 }
 
@@ -70,13 +68,23 @@ where P: AsRef<Path>
                     if relative_to_cwd {
                         files.push(entry);
                     } else {
-                        files.push(fs::canonicalize(entry).unwrap().display().to_string());
+                        files.push(
+                            fs::canonicalize(entry)
+                                .unwrap()
+                                .display()
+                                .to_string(),
+                        );
                     }
                 } else {
                     if relative_to_cwd {
                         files.push(entry);
                     } else {
-                        files.push(fs::canonicalize(&path).unwrap().display().to_string());
+                        files.push(
+                            fs::canonicalize(&path)
+                                .unwrap()
+                                .display()
+                                .to_string(),
+                        );
                     }
                 }
             }
