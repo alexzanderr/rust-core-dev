@@ -1,7 +1,13 @@
-
-
 use super::time_attributes::TimeAttributesBuilder;
 use super::time_attributes::TimeAttributes;
+
+pub fn get_utc_timestamp() -> i64 {
+    chrono::Utc::now().timestamp()
+}
+
+pub fn get_bucharest_timestamp() -> i64 {
+    chrono::Utc::now().timestamp() + 3600 * 3
+}
 
 pub fn sleep_by_millis(millis: u64) {
     let duration = std::time::Duration::from_millis(millis);
@@ -15,11 +21,16 @@ pub fn sleep_by_secs(seconds: f32) {
 }
 
 
-
-pub fn seconds_to_time_struct<'a>(seconds: usize) -> TimeAttributes {
-    TimeAttributesBuilder::default().seconds(seconds).normalize().build()
+pub fn seconds_to_time_struct(seconds: usize) -> TimeAttributes {
+    TimeAttributesBuilder::default()
+        .seconds(seconds)
+        .normalize()
+        .build()
 }
 
-pub fn minutes_to_time_struct<'a>(minutes: usize) -> TimeAttributes {
-    TimeAttributesBuilder::default().minutes(minutes).normalize().build()
+pub fn minutes_to_time_struct(minutes: usize) -> TimeAttributes {
+    TimeAttributesBuilder::default()
+        .minutes(minutes)
+        .normalize()
+        .build()
 }

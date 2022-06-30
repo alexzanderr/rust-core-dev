@@ -1,0 +1,103 @@
+
+[config]
+# meaning: it will ignore all members and runs the commands on the root
+default_to_workspace = false
+# docs for workspace: https://github.com/sagiegurari/cargo-make#usage-workspace-support
+
+
+[tasks.br]
+command = "cargo"
+args = ["build", "--release"]
+
+[tasks.b]
+command = "cargo"
+args = ["build"]
+
+[tasks.r]
+command = "cargo"
+args = ["run"]
+
+[tasks.rr]
+command = "cargo"
+args = ["run", "--release"]
+
+
+
+
+# test all
+[tasks.t_all]
+command = "cargo"
+args = ["test", "-j=8", "--features=all", "--", "--show-output"]
+
+# test private all
+[tasks.t_priv_all]
+command = "cargo"
+args = ["test", "-j=8", "--lib", "--features=all", "--", "--show-output"]
+
+
+# test datetime
+[tasks.t_datetime]
+command = "cargo"
+args = ["test", "-q", "--test=test_datetime", "-j=8", "--features=datetime,traits", "--", "--show-output"]
+
+
+# test stringlib
+[tasks.t_stringlib]
+command = "cargo"
+args = ["test", "-q", "--test=test_stringlib", "-j=8", "--features=stringlib", "--", "--show-output"]
+
+
+[tasks.r_stringlib_alignment]
+command = "cargo"
+args = ["run", "-p=stringlib", "--bin=alignment"]
+
+
+
+[tasks.test_random]
+command = "cargo"
+args = ["test", "-q", "--features=random,stringlib", "--test=random", "--", "--show-output"]
+
+
+[tasks.test_aesthetics]
+command = "cargo"
+args = ["test", "-q", "--features=aesthetics", "--test=aesthetics", "--", "--show-output"]
+
+
+[tasks.test_random_doc]
+command = "cargo"
+args = ["test", "-q", "--features=random,stringlib", "--doc", "--", "--show-output"]
+
+
+[tasks.watch_check_tests_and_all]
+command = "cargo"
+args = ["watch", "-w=src", "-w=tests", "-w=examples", "--shell='cargo check'", "-c"]
+
+
+[tasks.lint]
+command = "cargo"
+args = ["clippy"]
+
+
+
+
+
+
+
+
+# "features all" item its NOT working
+#
+# --" "--show-output"
+# error: Found argument '--features all' which wasn't expected, or isn't valid in this context
+
+#         Did you mean '--features'?
+
+#         If you tried to supply `--features all` as a value rather than a flag, use `-- --features all`
+
+# USAGE:
+#     cargo test --jobs <N> --lib --features <FEATURES>
+
+# For more information try --help
+# [cargo-make] ERROR - Error while executing command, exit code: 1
+# [cargo-make] WARN - Build Failed.
+#
+# it doesnt recognise it

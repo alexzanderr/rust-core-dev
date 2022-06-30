@@ -16,7 +16,11 @@ impl PartialEq for TreeNode {
 }
 
 impl TreeNode {
-    pub fn new(name: String, path: String, nodes: NodesOption) -> Self {
+    pub fn new(
+        name: String,
+        path: String,
+        nodes: NodesOption,
+    ) -> Self {
         Self {
             name,
             path,
@@ -63,7 +67,9 @@ impl TreeNode {
 
     pub fn add_nodes(&mut self, nodes: Vec<TreeNode>) {
         if let Some(children) = &mut self.nodes {
-            for (ch, node) in children.iter_mut().zip(nodes.into_iter()) {
+            for (ch, node) in
+                children.iter_mut().zip(nodes.into_iter())
+            {
                 match &mut ch.nodes {
                     Some(ch_nodes) => {
                         ch_nodes.push(node);
@@ -86,23 +92,27 @@ impl TreeNode {
     fn _generate_summary(&self, level: usize) -> Vec<String> {
         let mut result = Vec::new();
         let indent = "    ".repeat(level);
-        let line = format!("{}- [{}]({})", indent, self.name, self.path);
+        let line =
+            format!("{}- [{}]({})", indent, self.name, self.path);
         // println!("{}", line);
         result.push(line);
 
         if let Some(nodes) = &self.nodes {
             for node in nodes {
                 let indent = "    ".repeat(level + 1);
-                let line =
-                    format!("{}- [{}]({})", indent, node.name, node.path);
+                let line = format!(
+                    "{}- [{}]({})",
+                    indent, node.name, node.path
+                );
                 // println!("{}", line);
                 result.push(line);
 
                 match &node.nodes {
                     Some(nodes) => {
                         for node in nodes {
-                            result
-                                .extend(node._generate_summary(level + 2));
+                            result.extend(
+                                node._generate_summary(level + 2),
+                            );
                         }
                     },
                     None => {},
@@ -113,9 +123,8 @@ impl TreeNode {
     }
 
     pub fn generate_summary(&self, level: usize) -> Vec<String> {
-        let mut summary_vec = Vec::new();
-        summary_vec.push("# Summary".to_string());
-        summary_vec.push("".to_string());
+        let mut summary_vec =
+            vec!["# Summary".to_string(), "".to_string()];
         if let Some(nodes) = &self.nodes {
             for node in nodes {
                 summary_vec.extend(node._generate_summary(level));

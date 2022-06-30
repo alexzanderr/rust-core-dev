@@ -6,8 +6,11 @@ pub trait IndexOfVector<T> {
     fn index_of(&self, element: &T) -> Option<usize>;
 
     /// get the index of specified element from start index
-    fn index_from(&self, element: &T, start_index: usize)
-        -> Option<usize>;
+    fn index_from(
+        &self,
+        element: &T,
+        start_index: usize,
+    ) -> Option<usize>;
 
     /// get the index of a spcified element from reverse vector
     fn rindex_of(&self, element: &T) -> Option<usize>;
@@ -34,7 +37,8 @@ where
         element: &T,
         start_index: usize,
     ) -> Option<usize> {
-        let option = self[start_index..].iter().position(|e| e == element);
+        let option =
+            self[start_index..].iter().position(|e| e == element);
 
         option.map(|index| index + start_index)
     }

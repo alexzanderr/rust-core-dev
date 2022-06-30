@@ -1,5 +1,3 @@
-#![allow(non_snake_case)]
-
 use super::time_attributes::TimeAttributesBuilder;
 use super::time_attributes::TimeAttributes;
 
@@ -8,7 +6,7 @@ use std::collections::BTreeSet;
 use std::collections::HashMap;
 
 
-// 3rd party lazy_statuc
+// 3rd party lazy_static
 use lazy_static::lazy_static;
 
 // 3rd party tz and tzdb (related)
@@ -41,7 +39,8 @@ pub fn get_current_tokyo_datetime() -> String {
 }
 
 pub fn get_current_bucharest_time() -> String {
-    let time = tz::DateTime::now(time_zone::europe::BUCHAREST).unwrap();
+    let time =
+        tz::DateTime::now(time_zone::europe::BUCHAREST).unwrap();
     time.to_time_string()
 }
 
@@ -167,6 +166,7 @@ pub fn get_current_time_utc() -> String {
     get_current_time_from(Utc::now())
 }
 
+/// returns current date in format day.month.year or dd.mm.YYYY for short
 pub fn get_current_date() -> String {
     get_current_date_from(Local::now())
 }
@@ -331,18 +331,12 @@ where
 impl TimeDiff<Local> for DateTime<Local> {
     fn nano_secs_diff(&self, other: DateTime<Local>) -> i64 {
         let diff = *self - other;
-        match diff.num_nanoseconds() {
-            Some(nano_secs) => nano_secs,
-            None => 0,
-        }
+        diff.num_nanoseconds().unwrap_or(0)
     }
 
     fn micro_secs_diff(&self, other: DateTime<Local>) -> i64 {
         let diff = *self - other;
-        match diff.num_microseconds() {
-            Some(micro_secs) => micro_secs,
-            None => 0,
-        }
+        diff.num_microseconds().unwrap_or(0)
     }
 
     fn milli_secs_diff(&self, other: DateTime<Local>) -> i64 {
@@ -385,18 +379,12 @@ impl TimeDiff<Local> for DateTime<Local> {
 impl TimeDiff<Utc> for DateTime<Utc> {
     fn nano_secs_diff(&self, other: DateTime<Utc>) -> i64 {
         let diff = *self - other;
-        match diff.num_nanoseconds() {
-            Some(nano_secs) => nano_secs,
-            None => 0,
-        }
+        diff.num_nanoseconds().unwrap_or(0)
     }
 
     fn micro_secs_diff(&self, other: DateTime<Utc>) -> i64 {
         let diff = *self - other;
-        match diff.num_microseconds() {
-            Some(micro_secs) => micro_secs,
-            None => 0,
-        }
+        diff.num_microseconds().unwrap_or(0)
     }
 
     fn milli_secs_diff(&self, other: DateTime<Utc>) -> i64 {
@@ -493,7 +481,7 @@ pub fn get_current_month_ro_name() -> String {
 }
 
 
-const TIME_INTERVALS: [&'static str; 9] = [
+const TIME_INTERVALS: [&str; 9] = [
     "millennials",
     "centuries",
     "decades",
@@ -506,7 +494,7 @@ const TIME_INTERVALS: [&'static str; 9] = [
 ];
 
 
-pub const TIME_INTERVALS_AS_SECONDS: [(&'static str, i128); 9] = [
+pub const TIME_INTERVALS_AS_SECONDS: [(&str, i128); 9] = [
     ("millennia", 60 * 60 * 24 * 365 * 1000),
     ("century", 60 * 60 * 24 * 365 * 100),
     ("decade", 60 * 60 * 24 * 365 * 10),
@@ -547,15 +535,13 @@ pub fn seconds_to_time_map<'a>(
         let result = seconds / _seconds as usize;
         seconds -= result * _seconds as usize;
         time_intervals_values
-            .entry(&_interval)
+            .entry(_interval)
             .and_modify(|e| *e = result as i128);
     }
 
     // dbg!(&time_intervals_values);
     time_intervals_values
 }
-
-
 
 
 #[cfg(test)]
@@ -575,7 +561,8 @@ mod tests {
     #[test]
     fn test_diff() {
         let acum = Local::now();
-        std::thread::sleep(std::time::Duration::from_secs(5));
+        println!("im sleeping 5 seconds, dont worry");
+        // std::thread::sleep(std::time::Duration::from_secs(5));
         let maine = Local::now();
         println!("{}", acum.days_diff(maine));
         println!("{}", acum.seconds_diff(maine));

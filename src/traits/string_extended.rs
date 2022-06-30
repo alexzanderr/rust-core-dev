@@ -20,12 +20,20 @@ pub trait StringExtended {
     /// makes the first letter of the String/str uppercase
     /// doesnt modify in place
     fn capitalize(&self) -> String;
+
+
+    /// check whether is uppercase or not
+    fn is_uppercase(&self) -> bool;
+
+
+    /// check whether is lowercase or not
+    fn is_lowercase(&self) -> bool;
 }
 
 
 impl StringExtended for String {
     fn split_lines(&self) -> Vec<String> {
-        self.split("\n").map(|line| line.to_string()).collect()
+        self.split('\n').map(|line| line.to_string()).collect()
     }
 
     fn split_to_vec_string(&self, pattern: &str) -> Vec<String> {
@@ -42,12 +50,20 @@ impl StringExtended for String {
 
     fn capitalize(&self) -> String {
         self[0..1].to_uppercase() + &self[1..]
+    }
+
+    fn is_uppercase(&self) -> bool {
+        self.chars().all(|c| c.is_uppercase())
+    }
+
+    fn is_lowercase(&self) -> bool {
+        self.chars().all(|c| c.is_lowercase())
     }
 }
 
 impl StringExtended for &str {
     fn split_lines(&self) -> Vec<String> {
-        self.split("\n").map(|line| line.to_string()).collect()
+        self.split('\n').map(|line| line.to_string()).collect()
     }
 
     fn get_char(&self, index: usize) -> Option<char> {
@@ -64,5 +80,13 @@ impl StringExtended for &str {
 
     fn capitalize(&self) -> String {
         self[0..1].to_uppercase() + &self[1..]
+    }
+
+    fn is_uppercase(&self) -> bool {
+        self.chars().all(|c| c.is_uppercase())
+    }
+
+    fn is_lowercase(&self) -> bool {
+        self.chars().all(|c| c.is_lowercase())
     }
 }

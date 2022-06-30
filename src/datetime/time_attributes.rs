@@ -17,17 +17,20 @@ pub struct TimeAttributes {
 impl TimeAttributes {
     pub fn all_zeros(&self) -> bool {
         self.millennials == 0
-         && self.centuries == 0
-         && self.decades == 0
-         && self.years == 0
-         && self.weeks == 0
-         && self.days == 0
-         && self.hours == 0
-         && self.minutes == 0
-         && self.seconds == 0
+            && self.centuries == 0
+            && self.decades == 0
+            && self.years == 0
+            && self.weeks == 0
+            && self.days == 0
+            && self.hours == 0
+            && self.minutes == 0
+            && self.seconds == 0
     }
 
-    pub fn format(&self) -> String {
+
+    /// this will format like this
+    /// 10d 10h 5m 30s
+    pub fn format_with_letters(&self) -> String {
         let mut display = String::new();
         if self.millennials != 0 {
             display.push_str(&format!("{}mil", self.millennials));
@@ -55,6 +58,8 @@ impl TimeAttributes {
         }
         if self.seconds != 0 {
             display.push_str(&format!(" {}s", self.seconds));
+        } else {
+            display.push_str(" 0s");
         }
         display.trim().to_string()
     }
@@ -77,9 +82,8 @@ impl TimeAttributes {
         //     level += 1;
         // }
 
-        items[items.len() - level..].join(":").to_string()
+        items[items.len() - level..].join(":")
     }
-
 
     pub fn format_as_clock(&self) -> String {
         let mut display = String::new();
@@ -136,7 +140,11 @@ impl TimeAttributes {
             display.push_str("00:")
         }
         if self.days != 0 {
-            display.push_str(&format!("{}:", self.days));
+            if self.days < 10 {
+                display.push_str(&format!("0{}:", self.days));
+            } else {
+                display.push_str(&format!("{}:", self.days));
+            }
         } else {
             display.push_str("0:")
         }
@@ -183,6 +191,11 @@ impl TimeAttributes {
         self.normalize_decrement();
     }
 
+    pub fn print_clock(&self, level: usize) {
+        let clock = self.format_as_clock_with_level(level);
+        println!("{}", clock);
+    }
+
     pub fn normalize_decrement(&mut self) {
         if self.seconds == 0 && self.minutes > 0 {
             // dbg!(&self.seconds);
@@ -204,10 +217,14 @@ impl TimeAttributes {
                             if self.years == 0 && self.decades > 0 {
                                 self.decades -= 1;
                                 self.years = 10;
-                                if self.decades == 0 && self.centuries > 0 {
+                                if self.decades == 0
+                                    && self.centuries > 0
+                                {
                                     self.centuries -= 1;
                                     self.decades = 10;
-                                    if self.centuries == 0 && self.millennials > 0 {
+                                    if self.centuries == 0
+                                        && self.millennials > 0
+                                    {
                                         self.millennials -= 1;
                                         self.centuries = 10;
                                     }
@@ -264,6 +281,80 @@ impl TimeAttributes {
             self.centuries -= 10;
         }
     }
+
+    pub fn get_level(&self) -> usize {
+        // pub millennials: usize,
+        // pub centuries:   usize,
+        // pub decades:     usize,
+        // pub years:       usize,
+        // pub weeks:       usize,
+        // pub days:        usize,
+        // pub hours:       usize,
+        // pub minutes:     usize,
+        // pub seconds:     usize,
+        let mut max_level = 9usize;
+        if self.millennials == 0 {
+            max_level -= 1;
+        } else {
+            return max_level;
+        }
+
+        if self.centuries == 0 {
+            max_level -= 1;
+        } else {
+            return max_level;
+        }
+
+        if self.decades == 0 {
+            max_level -= 1;
+        } else {
+            return max_level;
+        }
+
+
+        if self.years == 0 {
+            max_level -= 1;
+        } else {
+            return max_level;
+        }
+
+
+        if self.weeks == 0 {
+            max_level -= 1;
+        } else {
+            return max_level;
+        }
+
+
+        if self.days == 0 {
+            max_level -= 1;
+        } else {
+            return max_level;
+        }
+
+
+        if self.hours == 0 {
+            max_level -= 1;
+        } else {
+            return max_level;
+        }
+
+
+        if self.minutes == 0 {
+            max_level -= 1;
+        } else {
+            return max_level;
+        }
+
+
+        if self.seconds == 0 {
+            max_level -= 1;
+        } else {
+            return max_level;
+        }
+
+        max_level
+    }
 }
 
 #[derive(Debug)]
@@ -273,8 +364,11 @@ pub struct TimeAttributesBuilder {
 
 
 impl std::fmt::Display for TimeAttributes {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.write_str("3h 3m 3s")
+    fn fmt(
+        &self,
+        f: &mut std::fmt::Formatter<'_>,
+    ) -> std::fmt::Result {
+        unimplemented!()
     }
 }
 

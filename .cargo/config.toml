@@ -1,9 +1,16 @@
 
 
 
+# important notice
+# if you want to add new variables
+# they must be between quiotes, example:
+# TEST_VAR = "value_between_quotes"
+
 [env]
-RUST_BACKTRACE = "full"
+RUST_BACKTRACE = "0"
 # RUST_LIB_BACKTRACE = "full"
-COLORBT_SHOW_HIDDEN = "1"
+# COLORBT_SHOW_HIDDEN = "1"
 # RUST_SPANTRACE = "0"
 # RUST_LIB_BACKTRACE = "1"
+
+# CARGO_MAKE_EXTEND_WORKSPACE_MAKEFILE = "true"

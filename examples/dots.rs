@@ -1,3 +1,16 @@
+#![allow(
+    dead_code,
+    unused_imports,
+    unused_variables,
+    unused_macros,
+    unused_assignments,
+    unused_mut,
+    non_snake_case,
+    unused_must_use,
+    non_upper_case_globals,
+    non_camel_case_types
+)]
+
 use core_dev::spinners::SpinnerDotsThread;
 
 use std::thread::sleep;
@@ -36,7 +49,8 @@ fn main() {
     });
 
 
-    let result = SpinnerDotsThread::<String>::run_default(closure.clone());
+    let result =
+        SpinnerDotsThread::<String>::run_default(closure.clone());
     if let Err(result) = result {
         println!("{}", result);
     }
@@ -80,4 +94,6 @@ fn main() {
     // its working because i32 has Copy trait implemented
     // with String it wouldnt work
     // println!("{}", iterations);
+    println!();
+    println!("its fine, I programmed it to panic!")
 }

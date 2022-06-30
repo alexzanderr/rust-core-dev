@@ -68,7 +68,9 @@ where
         termination_message: String,
     ) -> SpinnerDotsThread<'a, T> {
         SpinnerDotsThread {
-            frames: ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"],
+            frames: [
+                "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏",
+            ],
             _function,
             message,
             termination_message,
@@ -80,9 +82,11 @@ where
     ) -> SpinnerClosureResult<T> {
         let yellow_package = Yellow.paint("📦");
         let green_successfully = Green.paint("successfully");
-        let running_message = format!("{yellow_package} loading ... ");
-        let termination_message =
-            format!("{yellow_package} terminated {green_successfully}");
+        let running_message =
+            format!("{yellow_package} loading ... ");
+        let termination_message = format!(
+            "{yellow_package} terminated {green_successfully}"
+        );
 
         SpinnerDotsThread::run_with_args(
             running_message,
@@ -111,7 +115,7 @@ where
         // let cyan: HexColor = "#999999".parse().unwrap();
         // let cyan = RGB(cyan.r, cyan.g, cyan.b);
         let mut _iter = 0;
-        while handle.is_running() {
+        while !handle.is_finished() {
             let frame = self.frames[_iter % 10];
             let frame = Yellow.paint(frame);
             print!("{} {}\r", frame, self.message);

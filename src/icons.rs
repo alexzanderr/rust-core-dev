@@ -6,6 +6,8 @@
 // #[derive(Encode, Decode, PartialEq, Debug)]
 /// note that every field of this struct is unicode
 /// even if they are named similary to ascii
+/// more icons
+/// https://en.wikipedia.org/wiki/Whitespace_character
 pub struct IconsStruct<'a> {
     pub pipe:                  &'a str,
     pub up_left_corner:        &'a str,
@@ -104,6 +106,9 @@ pub struct IconsStruct<'a> {
     pub thunder:               &'a str,
     pub lambda:                &'a str,
     pub cross:                 &'a str,
+    pub whitespace:            &'a str,
+    pub long_whitespace:       &'a str,
+    pub enter:                 &'a str,
 }
 
 
@@ -206,6 +211,9 @@ const fn initialize_icons_struct() -> IconsStruct<'static> {
         thunder:               "⚡",
         lambda:                "λ",
         cross:                 "┼",
+        whitespace:            "␣",
+        long_whitespace:       "⌴",
+        enter:                 "↵",
     }
 }
 

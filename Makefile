@@ -1,70 +1,47 @@
 
 
-info:
-	$(info Targets)
-	$(info -----------------------------------------------------------------------)
-	$(info assets      | generate default theme packs and syntax)
-	$(info - OTHER TARGETS -------------------------------------------------------)
-	$(info themes      | generate default theme pack)
-	$(info packs       | generate default syntax pack)
-	$(info syntest     | run syntax test summary)
-
 # make
 rq:
 	cargo run --quiet
 
-# make br
-br:
-	cargo build --release
-
 # make b
 b:
-	cargo build
+	@cargo make b
+
+# make br
+br:
+	@cargo make br
+
 
 # make r
 r:
-	cargo run
+	@cargo make r
 
 # make rr
 rr:
-	cargo run --release
+	@cargo make rr
 
 
-t:
-	cargo test -j 8 -- --show-output
+test_all:
+	@cargo make t_all
 
-test:
-	cargo test -j 8 -- --show-output
-
-test_private:
-	cargo test -j 8 --lib -- --show-output
+test_priv_all:
+	@cargo make t_priv_all
 
 test_datetime:
-	cargo test -q --test=test_datetime -j 8 --features datetime -- --show-output
+	@cargo make t_datetime
 
-flow:
-	@cargo run --example flow_control --quiet
+test_stringlib:
+	@cargo make t_stringlib
 
-rflow:
-	@cargo run --example flow_control --release --quiet
-
-
-spin:
-	@cargo run --example spinners --quiet
-
-rspin:
-	@cargo run --example spinners --quiet --release
-
-
-mac:
-	@cargo run --example macros --quiet
-
-rmac:
-	@cargo run --example macros --quiet --release
-
-
+run_stringlib_alignment:
+	@cargo make r_stringlib_alignment
 
 # .SILENT: flow | rflow | run | br | b | r | rr
 
 lint:
 	cargo clippy
+
+
+watch_check_tests_and_all:
+	@cargo watch -w=src -w=tests -w=examples --shell='cargo check --features all && ./scripts/compiled.sh || ./scripts/compile_error.sh' -c

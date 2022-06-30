@@ -1,0 +1,6 @@
+hello
+there
+rust
+is
+the
+best

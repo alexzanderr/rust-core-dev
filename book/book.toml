@@ -1,0 +1,35 @@
+
+[book]
+authors = ["alexzanderr <alexzander.dot.dev@gmail.com>"]
+description = "rust-python-objects book that contains documentation and examples"
+language = "en"
+multilingual = false
+src = "src"
+title = "python-objects"
+
+# [preprocessor.test]
+# command = "cargo run -p pylist -q --example append_py_bool"
+
+
+# custom
+[preprocessor.admonish]
+# https://github.com/tommilligan/mdbook-admonish
+command = "mdbook-admonish"
+
+
+# custom
+[preprocessor.toc]
+command = "mdbook-toc"
+renderer = ["html"]
+max-level = 4
+
+
+
+[output]
+
+[output.html]
+additional-css = ["./mdbook-admonish.css"]
+
+
+# doesnt work
+# [preprocessor.runpybool]

@@ -1,5 +1,10 @@
 
+dist
+
 target
 Cargo.lock
+
+
 *.sublime-*
 .vscode
+scripts
