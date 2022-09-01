@@ -9,7 +9,7 @@ fn decrease(_integer: &mut i32) {
 }
 
 fn main() {
-    let args: Vec<String> = env::args().collect();
+    let args = env::args().collect();
     println!("{:?}", args);
 
     let mut integer = 123;

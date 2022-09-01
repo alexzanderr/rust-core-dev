@@ -1,10 +1,9 @@
 use termion::screen::AlternateScreen;
 use std::io::{
     Write,
-    stdout,
+    stdout
 };
 use core_dev::system::pause;
-
 
 fn main() {
     {

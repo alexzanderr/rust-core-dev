@@ -6,3 +6,6 @@ pub mod ansi;
 
 mod macros;
 pub use crate::red;
+
+mod ascii;
+use ascii::asciify;

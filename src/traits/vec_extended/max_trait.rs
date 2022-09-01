@@ -2,7 +2,6 @@ pub trait MaxVector<T> {
     fn find_max(&self) -> Option<T>;
 }
 
-
 impl MaxVector<i8> for Vec<i8> {
     fn find_max(&self) -> Option<i8> {
         if self.is_empty() {
@@ -19,7 +18,6 @@ impl MaxVector<i8> for Vec<i8> {
     }
 }
 
-
 impl MaxVector<i16> for Vec<i16> {
     fn find_max(&self) -> Option<i16> {
         if self.is_empty() {
@@ -35,7 +33,6 @@ impl MaxVector<i16> for Vec<i16> {
         Some(maximum)
     }
 }
-
 
 impl MaxVector<i32> for Vec<i32> {
     fn find_max(&self) -> Option<i32> {

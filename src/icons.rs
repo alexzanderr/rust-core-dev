@@ -1,7 +1,6 @@
 // use bevy_reflect::Reflect;
 // use bincode::{config, Decode, Encode};
 
-
 // not working
 // #[derive(Encode, Decode, PartialEq, Debug)]
 /// note that every field of this struct is unicode
@@ -108,9 +107,8 @@ pub struct IconsStruct<'a> {
     pub cross:                 &'a str,
     pub whitespace:            &'a str,
     pub long_whitespace:       &'a str,
-    pub enter:                 &'a str,
+    pub enter:                 &'a str
 }
-
 
 const fn initialize_icons_struct() -> IconsStruct<'static> {
     IconsStruct {
@@ -213,7 +211,7 @@ const fn initialize_icons_struct() -> IconsStruct<'static> {
         cross:                 "┼",
         whitespace:            "␣",
         long_whitespace:       "⌴",
-        enter:                 "↵",
+        enter:                 "↵"
     }
 }
 

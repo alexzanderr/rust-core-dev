@@ -2,13 +2,14 @@ use std::io::{
     stdin,
     stdout,
     Read,
-    Write,
+    Write
 };
 
 /// the old C style system pause
 pub fn pause() {
     let mut stdout = stdout();
-    stdout.write(b"Press Enter to continue...").unwrap();
+    stdout.write_all(b"Press Enter to continue...").unwrap();
     stdout.flush().unwrap();
-    stdin().read(&mut [0]).unwrap();
+    let mut buffer = [0; 1024];
+    stdin().read_exact(&mut buffer).unwrap();
 }

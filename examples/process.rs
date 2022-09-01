@@ -5,9 +5,7 @@ fn main() {
     let process_communicate = Command::new("rustc")
         .arg("--version")
         .output()
-        .unwrap_or_else(|e| {
-            panic!("failed to execute process: {}", e)
-        });
+        .unwrap_or_else(|e| panic!("failed to execute process: {}", e));
 
     let exit_code = process_communicate.status;
     let status = process_communicate.status.success();

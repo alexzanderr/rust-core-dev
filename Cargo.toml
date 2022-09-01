@@ -30,7 +30,7 @@ harness = false
 
 
 [dependencies]
-reqwest = { version = "0.11.9", features = ["blocking"], optional = true}
+reqwest = { version = "0.11.11", features = ["blocking"], optional = true }
 doc-comment = { version = "0.3.3", optional = true }
 
 default-args = { version = "1.0.0", optional = true }
@@ -38,7 +38,7 @@ default-args = { version = "1.0.0", optional = true }
 globwalk = { version = "0.8.1", optional = true }
 
 color-backtrace = { version = "0.5.1", optional = true }
-color-eyre = { version = "0.6.1", optional = true }
+color-eyre = { version = "0.6.2", optional = true }
 
 ansi_term = { version = "0.12.1", features = [ "derive_serde_style", "serde" ], optional = true }
 ansi-hex-color = { version = "0.1.1", optional = true }
@@ -54,28 +54,29 @@ rodio = { version = "0.15.0", optional = true }
 
 # datetime
 chrono = { version = "0.4.19", optional = true }
-tz-rs = { version = "0.6.7", optional = true }
-tzdb = { version = "0.2.0", optional = true }
-ctrlc = { version = "3.2.1", features = ["termination"], optional = true }
+tz-rs = { version = "0.6.11", optional = true }
+tzdb = { version = "0.2.7", optional = true }
+ctrlc = { version = "3.2.2", features = ["termination"], optional = true }
 
 lazy_static = { version = "1.4.0", optional = true }
 
 notify-rust = { version = "4.5.8", features = ["images"], optional = true }
 xdg-utils = { version = "0.4.0", optional = true }
-open = { version = "2.1.1", optional = true }
+open = { version = "3.0.1", optional = true }
 
 clipboard-ext = { version = "0.2.0", optional = true }
 
 soloud = { version = "1.0.2", optional = true }
-image = { version = "0.24.1", optional = true }
-syntect = { version = "4.6.0", optional = true }
-crossterm = { version = "0.23.2", optional = true }
+image = { version = "0.24.2", optional = true }
+syntect = { version = "5.0.0", optional = true }
+crossterm = { version = "0.24.0", optional = true }
 termion = { version = "1.5.6", optional = true }
 pad = { version = "0.1.6", optional = true }
 openweathermap = { version = "0.2.4", optional = true }
 log = { version = "0.4.17", optional = true }
 paste = { version = "1.0.7", optional = true }
 lettre = { version = "0.10.0", optional = true }
+rustc_version_runtime = { version = "0.2.1", optional = true }
 
 
 [lib]
@@ -83,13 +84,13 @@ name = "core_dev"
 
 
 [dev-dependencies]
-rstest = "0.12.0"
-pretty_assertions = "1.1.0"
-rstest_reuse = "0.3.0"
+rstest = "0.15.0"
+pretty_assertions = "1.2.1"
+rstest_reuse = "0.4.0"
 assert_cmd = "2.0.4"
 quickcheck = "1.0.3"
 quickcheck_macros = "1.0.0"
-criterion = "0.3.5"
+criterion = "0.3.6"
 test-generator = "0.3.0"
 assert2 = "0.3.6"
 
@@ -107,7 +108,7 @@ datetime = ["chrono", "tz-rs", "tzdb", "lazy_static",
 ]
 algorithms = []
 pathlib = ["globwalk"]
-stringlib = ["pad"]
+stringlib = ["pad", "traits"]
 random = ["rand"]
 aesthetics = ["ansi_term", "reqwest", "hex_color", "ansi-hex-color", "paste"]
 spinners = ["ansi_term", "hex_color", "ansi-hex-color", "color-backtrace"]
@@ -131,6 +132,17 @@ email = [
     "lettre"
 ]
 
+prelude = [
+    "datetime",
+    "shell",
+    "image",
+    "traits",
+    "linuxapi",
+    "aesthetics",
+    "icons",
+    "stringlib",
+]
+
 all = [
     "terminal",
     "datetime",
@@ -148,7 +160,8 @@ all = [
     "core",
     "examples",
     "shell",
-    "email"
+    "email",
+    "prelude"
 ]
 
 
@@ -157,11 +170,15 @@ all = [
 # opt-level = 'z'
 
 [profile.release]
-# Link-time optimization (LTO) is a whole-program optimization technique that can improve runtime performance by 10-20% or more, at the cost of increased build times. For any individual Rust program it is easy to see if the runtime versus compile-time trade-off is worthwhile.
-# The simplest way to try LTO is to add the following lines to the Cargo.toml file and do a release build.
+# https://nnethercote.github.io/perf-book/build-configuration.html#link-time-optimization
 lto = true
 # opt-level = 's'
-
+# https://nnethercote.github.io/perf-book/build-configuration.html#codegen-units
+# codegen-units = 1
+# sometimes can result in slower program
+# PGO
+# https://doc.rust-lang.org/rustc/profile-guided-optimization.html#a-complete-cargo-workflow
+# panic = "abort"
 
 
 [workspace]
@@ -217,3 +234,8 @@ path = "tests/test_lib/random.rs"
 [[example]]
 name = "musicplayer"
 required-features = ["audio"]
+
+
+
+[package.metadata.docs.rs]
+all-features = true

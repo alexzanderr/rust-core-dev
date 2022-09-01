@@ -5,7 +5,6 @@ use std::collections::BTreeSet;
 // std imports
 use std::collections::HashMap;
 
-
 // 3rd party lazy_static
 use lazy_static::lazy_static;
 
@@ -21,7 +20,6 @@ use chrono::TimeZone;
 use chrono::Timelike;
 use chrono::offset::Local;
 use chrono::offset::Utc;
-
 
 pub fn get_current_tokyo_time() -> String {
     let time = tz::DateTime::now(time_zone::asia::TOKYO).unwrap();
@@ -39,8 +37,7 @@ pub fn get_current_tokyo_datetime() -> String {
 }
 
 pub fn get_current_bucharest_time() -> String {
-    let time =
-        tz::DateTime::now(time_zone::europe::BUCHAREST).unwrap();
+    let time = tz::DateTime::now(time_zone::europe::BUCHAREST).unwrap();
     time.to_time_string()
 }
 
@@ -65,7 +62,6 @@ impl Strftime for tz::DateTime {
         } else {
             format!("{}", minute)
         };
-
 
         let hour = self.hour();
         let hour_string = if hour < 10 {
@@ -104,10 +100,9 @@ impl Strftime for tz::DateTime {
     }
 }
 
-
 pub fn get_current_time_from<T>(timezone: DateTime<T>) -> String
 where
-    T: TimeZone, {
+    T: TimeZone {
     let second = timezone.second();
     let second_string = if second < 10 {
         format!("0{}", second)
@@ -122,7 +117,6 @@ where
         format!("{}", minute)
     };
 
-
     let hour = timezone.hour();
     let hour_string = if hour < 10 {
         format!("0{}", hour)
@@ -133,10 +127,9 @@ where
     format!("{}:{}:{}", hour_string, minute_string, second_string)
 }
 
-
 pub fn get_current_date_from<T>(timezone: DateTime<T>) -> String
 where
-    T: TimeZone, {
+    T: TimeZone {
     let day = timezone.day();
     let day_string = if day < 10 {
         format!("0{}", day)
@@ -156,11 +149,9 @@ where
     format!("{}.{}.{}", day_string, month_string, year)
 }
 
-
 pub fn get_current_time() -> String {
     get_current_time_from(Local::now())
 }
-
 
 pub fn get_current_time_utc() -> String {
     get_current_time_from(Utc::now())
@@ -175,13 +166,11 @@ pub fn get_current_date_utc() -> String {
     get_current_date_from(Utc::now())
 }
 
-
 pub fn get_current_datetime() -> String {
     let current_time = get_current_time();
     let current_date = get_current_date();
     format!("{current_date}-{current_time}")
 }
-
 
 pub fn get_current_datetime_utc() -> String {
     let current_time = get_current_time_utc();
@@ -189,10 +178,9 @@ pub fn get_current_datetime_utc() -> String {
     format!("{current_date}-{current_time}")
 }
 
-
 pub fn get_current_second_from<T>(timezone: DateTime<T>) -> String
 where
-    T: TimeZone, {
+    T: TimeZone {
     let second = timezone.second();
     if second < 10 {
         format!("0{}", second)
@@ -201,20 +189,17 @@ where
     }
 }
 
-
 pub fn get_current_second() -> String {
     get_current_second_from(Local::now())
 }
-
 
 pub fn get_current_second_utc() -> String {
     get_current_second_from(Utc::now())
 }
 
-
 pub fn get_current_minute_from<T>(timezone: DateTime<T>) -> String
 where
-    T: TimeZone, {
+    T: TimeZone {
     let minute = timezone.minute();
     if minute < 10 {
         format!("0{}", minute)
@@ -223,20 +208,17 @@ where
     }
 }
 
-
 pub fn get_current_minute() -> String {
     get_current_minute_from(Local::now())
 }
-
 
 pub fn get_current_minute_utc() -> String {
     get_current_minute_from(Utc::now())
 }
 
-
 fn get_current_hour_from<T>(timezone: DateTime<T>) -> String
 where
-    T: TimeZone, {
+    T: TimeZone {
     let hour = timezone.hour();
     if hour < 10 {
         format!("0{}", hour)
@@ -245,20 +227,17 @@ where
     }
 }
 
-
 pub fn get_current_hour() -> String {
     get_current_hour_from(Local::now())
 }
-
 
 pub fn get_current_hour_utc() -> String {
     get_current_hour_from(Utc::now())
 }
 
-
 pub fn get_current_day_from<T>(timezone: DateTime<T>) -> String
 where
-    T: TimeZone, {
+    T: TimeZone {
     let day = timezone.day();
     if day < 10 {
         format!("0{}", day)
@@ -267,45 +246,37 @@ where
     }
 }
 
-
 pub fn get_current_day() -> String {
     get_current_day_from(Local::now())
 }
-
 
 pub fn get_current_day_utc() -> String {
     get_current_day_from(Utc::now())
 }
 
-
 pub fn get_current_month_from<T>(timezone: DateTime<T>) -> u32
 where
-    T: TimeZone, {
+    T: TimeZone {
     timezone.month()
 }
-
 
 pub fn get_current_month() -> u32 {
     get_current_month_from(Local::now())
 }
 
-
 pub fn get_current_month_utc() -> u32 {
     get_current_month_from(Utc::now())
 }
 
-
 pub fn get_current_year_from<T>(timezone: DateTime<T>) -> i32
 where
-    T: TimeZone, {
+    T: TimeZone {
     timezone.year()
 }
-
 
 pub fn get_current_year() -> i32 {
     get_current_year_from(Local::now())
 }
-
 
 pub fn get_current_year_utc() -> i32 {
     get_current_year_from(Utc::now())
@@ -313,116 +284,194 @@ pub fn get_current_year_utc() -> i32 {
 
 pub trait TimeDiff<T>
 where
-    T: TimeZone, {
-    fn nano_secs_diff(&self, other: DateTime<T>) -> i64;
-    fn micro_secs_diff(&self, other: DateTime<T>) -> i64;
-    fn milli_secs_diff(&self, other: DateTime<T>) -> i64;
+    T: TimeZone {
+    fn nano_secs_diff(
+        &self,
+        other: DateTime<T>
+    ) -> i64;
+    fn micro_secs_diff(
+        &self,
+        other: DateTime<T>
+    ) -> i64;
+    fn milli_secs_diff(
+        &self,
+        other: DateTime<T>
+    ) -> i64;
 
-    fn seconds_diff(&self, other: DateTime<T>) -> i64;
-    fn minutes_diff(&self, other: DateTime<T>) -> i64;
-    fn hours_diff(&self, other: DateTime<T>) -> i64;
+    fn seconds_diff(
+        &self,
+        other: DateTime<T>
+    ) -> i64;
+    fn minutes_diff(
+        &self,
+        other: DateTime<T>
+    ) -> i64;
+    fn hours_diff(
+        &self,
+        other: DateTime<T>
+    ) -> i64;
 
-    fn days_diff(&self, other: DateTime<T>) -> i64;
-    fn weeks_diff(&self, other: DateTime<T>) -> i64;
-    fn years_diff(&self, other: DateTime<T>) -> i64;
+    fn days_diff(
+        &self,
+        other: DateTime<T>
+    ) -> i64;
+    fn weeks_diff(
+        &self,
+        other: DateTime<T>
+    ) -> i64;
+    fn years_diff(
+        &self,
+        other: DateTime<T>
+    ) -> i64;
 }
-
 
 impl TimeDiff<Local> for DateTime<Local> {
-    fn nano_secs_diff(&self, other: DateTime<Local>) -> i64 {
+    fn nano_secs_diff(
+        &self,
+        other: DateTime<Local>
+    ) -> i64 {
         let diff = *self - other;
         diff.num_nanoseconds().unwrap_or(0)
     }
 
-    fn micro_secs_diff(&self, other: DateTime<Local>) -> i64 {
+    fn micro_secs_diff(
+        &self,
+        other: DateTime<Local>
+    ) -> i64 {
         let diff = *self - other;
         diff.num_microseconds().unwrap_or(0)
     }
 
-    fn milli_secs_diff(&self, other: DateTime<Local>) -> i64 {
+    fn milli_secs_diff(
+        &self,
+        other: DateTime<Local>
+    ) -> i64 {
         let diff = *self - other;
         diff.num_milliseconds()
     }
 
-    fn seconds_diff(&self, other: DateTime<Local>) -> i64 {
+    fn seconds_diff(
+        &self,
+        other: DateTime<Local>
+    ) -> i64 {
         let diff = *self - other;
         diff.num_seconds()
     }
 
-    fn minutes_diff(&self, other: DateTime<Local>) -> i64 {
+    fn minutes_diff(
+        &self,
+        other: DateTime<Local>
+    ) -> i64 {
         let diff = *self - other;
         diff.num_minutes()
     }
 
-    fn hours_diff(&self, other: DateTime<Local>) -> i64 {
+    fn hours_diff(
+        &self,
+        other: DateTime<Local>
+    ) -> i64 {
         let diff = *self - other;
         diff.num_hours()
     }
 
-    fn days_diff(&self, other: DateTime<Local>) -> i64 {
+    fn days_diff(
+        &self,
+        other: DateTime<Local>
+    ) -> i64 {
         let diff = *self - other;
         diff.num_days()
     }
 
-    fn weeks_diff(&self, other: DateTime<Local>) -> i64 {
+    fn weeks_diff(
+        &self,
+        other: DateTime<Local>
+    ) -> i64 {
         let diff = *self - other;
         diff.num_weeks()
     }
 
-    fn years_diff(&self, other: DateTime<Local>) -> i64 {
+    fn years_diff(
+        &self,
+        other: DateTime<Local>
+    ) -> i64 {
         let diff = *self - other;
         diff.num_days() / 365
     }
 }
-
 
 impl TimeDiff<Utc> for DateTime<Utc> {
-    fn nano_secs_diff(&self, other: DateTime<Utc>) -> i64 {
+    fn nano_secs_diff(
+        &self,
+        other: DateTime<Utc>
+    ) -> i64 {
         let diff = *self - other;
         diff.num_nanoseconds().unwrap_or(0)
     }
 
-    fn micro_secs_diff(&self, other: DateTime<Utc>) -> i64 {
+    fn micro_secs_diff(
+        &self,
+        other: DateTime<Utc>
+    ) -> i64 {
         let diff = *self - other;
         diff.num_microseconds().unwrap_or(0)
     }
 
-    fn milli_secs_diff(&self, other: DateTime<Utc>) -> i64 {
+    fn milli_secs_diff(
+        &self,
+        other: DateTime<Utc>
+    ) -> i64 {
         let diff = *self - other;
         diff.num_milliseconds()
     }
 
-    fn seconds_diff(&self, other: DateTime<Utc>) -> i64 {
+    fn seconds_diff(
+        &self,
+        other: DateTime<Utc>
+    ) -> i64 {
         let diff = *self - other;
         diff.num_seconds()
     }
 
-    fn minutes_diff(&self, other: DateTime<Utc>) -> i64 {
+    fn minutes_diff(
+        &self,
+        other: DateTime<Utc>
+    ) -> i64 {
         let diff = *self - other;
         diff.num_minutes()
     }
 
-    fn hours_diff(&self, other: DateTime<Utc>) -> i64 {
+    fn hours_diff(
+        &self,
+        other: DateTime<Utc>
+    ) -> i64 {
         let diff = *self - other;
         diff.num_hours()
     }
 
-    fn days_diff(&self, other: DateTime<Utc>) -> i64 {
+    fn days_diff(
+        &self,
+        other: DateTime<Utc>
+    ) -> i64 {
         let diff = *self - other;
         diff.num_days()
     }
 
-    fn weeks_diff(&self, other: DateTime<Utc>) -> i64 {
+    fn weeks_diff(
+        &self,
+        other: DateTime<Utc>
+    ) -> i64 {
         let diff = *self - other;
         diff.num_weeks()
     }
 
-    fn years_diff(&self, other: DateTime<Utc>) -> i64 {
+    fn years_diff(
+        &self,
+        other: DateTime<Utc>
+    ) -> i64 {
         let diff = *self - other;
         diff.num_days() / 365
     }
 }
-
 
 // impl Strftime for DateTime<Local> {
 //     fn to_datetime_string(&self) -> String {
@@ -437,7 +486,6 @@ impl TimeDiff<Utc> for DateTime<Utc> {
 //     }
 // }
 
-
 pub const MONTHS: [&str; 12] = [
     "January",
     "February",
@@ -450,14 +498,13 @@ pub const MONTHS: [&str; 12] = [
     "September",
     "October",
     "November",
-    "December",
+    "December"
 ];
 
 pub fn get_current_month_name() -> String {
     let now = Local::now().month0() as usize;
     MONTHS[now].to_string()
 }
-
 
 pub const MONTHS_RO: [&str; 12] = [
     "Ianuarie",
@@ -471,15 +518,13 @@ pub const MONTHS_RO: [&str; 12] = [
     "Septembrie",
     "Octombrie",
     "Noiembrie",
-    "Decembrie",
+    "Decembrie"
 ];
-
 
 pub fn get_current_month_ro_name() -> String {
     let now = Local::now().month0() as usize;
     MONTHS_RO[now].to_string()
 }
-
 
 const TIME_INTERVALS: [&str; 9] = [
     "millennials",
@@ -490,9 +535,8 @@ const TIME_INTERVALS: [&str; 9] = [
     "days",
     "hours",
     "minutes",
-    "seconds",
+    "seconds"
 ];
-
 
 pub const TIME_INTERVALS_AS_SECONDS: [(&str, i128); 9] = [
     ("millennia", 60 * 60 * 24 * 365 * 1000),
@@ -503,12 +547,11 @@ pub const TIME_INTERVALS_AS_SECONDS: [(&str, i128); 9] = [
     ("day", 60 * 60 * 24),
     ("hour", 60 * 60),
     ("minute", 60),
-    ("second", 1),
+    ("second", 1)
 ];
 
-
 pub fn seconds_to_time_map<'a>(
-    mut seconds: usize,
+    mut seconds: usize
 ) -> HashMap<&'a str, i128> {
     let mut time_intervals_values: HashMap<&'a str, i128> = vec![
         ("millennials", 0),
@@ -542,7 +585,6 @@ pub fn seconds_to_time_map<'a>(
     // dbg!(&time_intervals_values);
     time_intervals_values
 }
-
 
 #[cfg(test)]
 mod tests {

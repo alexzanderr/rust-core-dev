@@ -1,16 +1,25 @@
 pub trait All_Any_String {
-    fn all<F>(&self, closure: F) -> bool
+    fn all<F>(
+        &self,
+        closure: F
+    ) -> bool
     where
         F: Fn(&String) -> bool;
-    fn any<F>(&self, closure: F) -> bool
+    fn any<F>(
+        &self,
+        closure: F
+    ) -> bool
     where
         F: Fn(&String) -> bool;
 }
 
 impl All_Any_String for Vec<String> {
-    fn all<F>(&self, closure: F) -> bool
+    fn all<F>(
+        &self,
+        closure: F
+    ) -> bool
     where
-        F: Fn(&String) -> bool, {
+        F: Fn(&String) -> bool {
         for item in self.iter() {
             if !closure(item) {
                 return false;
@@ -19,9 +28,12 @@ impl All_Any_String for Vec<String> {
         true
     }
 
-    fn any<F>(&self, closure: F) -> bool
+    fn any<F>(
+        &self,
+        closure: F
+    ) -> bool
     where
-        F: Fn(&String) -> bool, {
+        F: Fn(&String) -> bool {
         for item in self.iter() {
             if closure(item) {
                 return true;
@@ -31,31 +43,42 @@ impl All_Any_String for Vec<String> {
     }
 }
 
-
 pub trait All_Any_Str {
-    fn all<F>(&self, closure: F) -> bool
+    fn all<F>(
+        &self,
+        closure: F
+    ) -> bool
     where
         F: Fn(&str) -> bool;
-    fn any<F>(&self, closure: F) -> bool
+    fn any<F>(
+        &self,
+        closure: F
+    ) -> bool
     where
         F: Fn(&str) -> bool;
 }
 
 impl All_Any_Str for Vec<&str> {
-    fn all<F>(&self, closure: F) -> bool
+    fn all<F>(
+        &self,
+        closure: F
+    ) -> bool
     where
-        F: Fn(&str) -> bool, {
+        F: Fn(&str) -> bool {
         for item in self.iter() {
-            if !closure(*item) {
+            if !closure(item) {
                 return false;
             }
         }
         true
     }
 
-    fn any<F>(&self, closure: F) -> bool
+    fn any<F>(
+        &self,
+        closure: F
+    ) -> bool
     where
-        F: Fn(&str) -> bool, {
+        F: Fn(&str) -> bool {
         for item in self.iter() {
             if closure(item) {
                 return true;

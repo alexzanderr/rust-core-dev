@@ -9,7 +9,6 @@
     non_upper_case_globals
 )]
 
-
 // 3rd party
 
 // from current crate
@@ -19,19 +18,23 @@
 
 // use core_dev::aesthetics::ansi;
 
-use pretty_assertions::assert_eq;
-// rstest
-use rstest::rstest;
-use rstest::fixture;
-use rstest_reuse::template;
-use rstest_reuse::apply;
-use rstest_reuse::{self,};
+mod global_prelude {
+    // pretty_assertions crate
+    pub(super) use pretty_assertions::assert_eq;
+    // rstest crate
+    pub(super) use rstest::rstest;
+    pub(super) use rstest::fixture;
+    // rstest_reuse crate
+    pub(super) use rstest_reuse::template;
+    pub(super) use rstest_reuse::apply;
+    pub(super) use rstest_reuse;
 
-
+    // assert2 crate
+    pub(super) use assert2::assert;
+    pub(super) use assert2::check;
+}
 
 use test_generator::test_resources;
-
-
 #[test_resources("test_data/*/words.txt")]
 fn test_data_from_files(file: &str) {
     let contents = std::fs::read_to_string(file).unwrap();
@@ -42,74 +45,78 @@ fn test_data_from_files(file: &str) {
     // assert!(std::path::Path::new(resource).exists());
 }
 
-use assert2::assert;
-use assert2::check;
-
-#[test]
-fn test_assert2() {
-    let x = 32;
-    check!(x == 32);
-    // check!(x == 31);
-    // assert!(x == 123);
-}
-
 #[cfg(test)]
 mod mod_ansi {
-    use super::rstest;
-    use super::fixture;
-    use super::assert_eq;
-    use super::template;
-    use super::apply;
-    use super::rstest_reuse;
+    use super::global_prelude;
 
-    /// this is what should look like when you convert a string into ansi codes with
-    /// red, green, blue ..., functions
-    pub fn generate_ansi_red(content: &str) -> String {
-        format!("\u{1b}[31m{}\u{1b}[0m", content)
+    mod templates_and_preprocessors {
+        use super::global_prelude::template;
+        use super::global_prelude::rstest;
+        // use super::global_prelude::;
+
+        /// this is what should look like when you convert a string into ansi codes with
+        /// red, green, blue ..., functions
+        pub(super) fn generate_ansi_red(content: &str) -> String {
+            format!("\u{1b}[31m{}\u{1b}[0m", content)
+        }
+
+        #[template]
+        #[rstest]
+        #[case("hello")]
+        #[case("there")]
+        #[case("rust")]
+        #[case("is")]
+        #[case("the")]
+        #[case("best")]
+        pub(super) fn random_words_template(#[case] input_content: &str) {
+        }
     }
 
-    use core_dev::aesthetics::ansi::red;
-    use core_dev::aesthetics::ansi::red_bold;
-    use core_dev::aesthetics::ansi::red_on_bg;
+    mod red_fns {
+        // all useful modules for testing
+        use super::global_preude::*;
+        // template from this super module for
+        use super::templates_and_preprocessors::*;
 
-    #[template]
-    #[rstest]
-    #[case("hello")]
-    #[case("there")]
-    #[case("rust")]
-    #[case("is")]
-    #[case("the")]
-    #[case("best")]
-    fn words(#[case] input_content: &str) {
+        // core_dev
+        use core_dev::aesthetics::ansi::red;
+        use core_dev::aesthetics::ansi::red_bold;
+        use core_dev::aesthetics::ansi::red_on_bg;
+
+        #[apply(random_words_template)]
+        fn test_red(#[case] input_content: &str) {
+            // this is 100% correct
+            let preprocessed_expected_result =
+                generate_ansi_red(input_content);
+
+            let result = red(input_content);
+            // println!("{:?}", result);
+            assert_eq!(result, preprocessed_expected_result);
+
+            println!("{}", red_on_bg("x", "yellow"));
+        }
     }
 
-    #[apply(words)]
-    fn test_red(#[case] input_content: &str) {
-        // this is 100% correct
-        let preprocessed_expected_result =
-            generate_ansi_red(input_content);
+    mod fixed_color_fn {
+        // all useful modules for testing
+        use super::global_prelude::*;
+        // template from this super module for
+        use super::templates_and_preprocessors::*;
+        // core_dev
+        use core_dev::impl_fixed_color_function;
 
-        let result = red(input_content);
-        // println!("{:?}", result);
-        assert_eq!(result, preprocessed_expected_result);
+        // these are needed for impl_fixed_color_function! macro
+        use paste::paste;
+        use ansi_term::Color;
 
-        println!("{}", red_on_bg("x", "yellow"));
-    }
-
-    use core_dev::impl_fixed_color_function;
-
-
-    use paste::paste;
-    use ansi_term::Color;
-
-    #[apply(words)]
-    fn against_123(#[case] input_content: &str) {
-        impl_fixed_color_function!(123);
-        let result = fixed_color_123(input_content);
-        println!("{:?}", result)
+        #[apply(random_words_template)]
+        fn against_123(#[case] input_content: &str) {
+            impl_fixed_color_function!(123);
+            let result = fixed_color_123(input_content);
+            println!("{:?}", result)
+        }
     }
 }
-
 
 // #[test]
 // fn test_asciify_str() {

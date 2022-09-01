@@ -1,5 +1,3 @@
-
-
 fn messenger(argument: &str) -> std::result::Result<String, String> {
     match argument {
         "salutare" => Ok("sal".to_string()),
@@ -21,6 +19,6 @@ fn main() {
         Err(e) => {
             println!("{}", e);
             std::process::exit(1);
-        },
+        }
     }
 }

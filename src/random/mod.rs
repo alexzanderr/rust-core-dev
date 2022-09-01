@@ -1,5 +1,3 @@
-
-
 pub mod traits;
 
 mod random;

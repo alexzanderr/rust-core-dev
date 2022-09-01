@@ -1,4 +1,3 @@
-
 //! The tests/ directory holds integration tests. These can test either your library or a binary.
 //! When you run `cargo test`, cargo will ensure that your library and all binaries have been built
 //! prior to running the integration tests.
@@ -8,10 +7,13 @@
 //! https://rust-lang-nursery.github.io/cli-wg/tutorial/testing.html
 
 use std::process::Command;
-use assert_cmd::prelude::{CommandCargoExt, OutputAssertExt};
+use assert_cmd::prelude::{
+    CommandCargoExt,
+    OutputAssertExt
+};
 
 #[test]
-fn prints_the_output_of_factorial(){
+fn prints_the_output_of_factorial() {
     let mut command = Command::cargo_bin("factorial").unwrap();
     command.args(&["hello"]).assert().success().stdout("buna ziua\n");
 }

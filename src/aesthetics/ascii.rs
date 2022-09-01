@@ -1,4 +1,3 @@
-//!
 //! src/aesthetics.rs
 //!
 //! useful and fancy design in terminal
@@ -9,9 +8,6 @@
 //!     - color normal text
 //!
 //! author: @alexzanderr
-//!
-//!
-
 
 #![allow(
     dead_code,
@@ -25,12 +21,10 @@
     non_upper_case_globals
 )]
 
-
 use std::fmt;
 
 // https://stackoverflow.com/questions/58906965/could-not-find-blocking-in-reqwest
 use reqwest as request;
-
 
 /// just a cool constant
 const IMPRESSIVE_FONTS: [&str; 29] = [
@@ -62,21 +56,23 @@ const IMPRESSIVE_FONTS: [&str; 29] = [
     "smkeyboard",
     "speed",
     "standard",
-    "weird",
+    "weird"
 ];
 
 #[derive(Debug)] // derive std::fmt::Debug on FontNotFoundError
 pub struct FontNotFoundError {
     code:    usize,
-    message: String,
+    message: String
 }
 
-
 impl fmt::Display for FontNotFoundError {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(
+        &self,
+        f: &mut fmt::Formatter
+    ) -> fmt::Result {
         let err_msg = match self.code {
             404 => "Sorry, Can not find the Page!",
-            _ => "Sorry, something is wrong! Please Try Again!",
+            _ => "Sorry, something is wrong! Please Try Again!"
         };
 
         write!(f, "{}", err_msg)
@@ -88,30 +84,19 @@ type FontResult = Result<(), FontNotFoundError>;
 fn throw_font_not_found_error() -> FontResult {
     Err(FontNotFoundError {
         code:    404,
-        message: String::from("Page not found"),
+        message: String::from("Page not found")
     })
-}
-
-
-enum Strings<'StringsLifetime> {
-    Static(&'StringsLifetime str),
-    String(String),
 }
 
 type StringResult = Result<String, FontNotFoundError>;
 
-fn _asciify(_text: Strings, _font: Option<Strings>) -> StringResult {
-    let text: String = match _text {
-        Strings::Static(_text) => String::from(_text),
-        Strings::String(_text) => _text,
-    };
-    let font: String = match _font {
-        Some(_font) => match _font {
-            Strings::Static(_font) => String::from(_font),
-            Strings::String(_font) => _font,
-        },
-        None => String::from(""),
-    };
+#[deprecated = "the ascii website API: `http://artii.herokuapp.com` doesnt exist anymore"]
+pub fn asciify(
+    text: impl AsRef<str>,
+    font: Option<String>
+) -> StringResult {
+    let text = text.as_ref();
+    let font: String = font.unwrap_or("".to_string());
 
     let mut font_argument = String::from("");
     if font != "" {
@@ -123,7 +108,7 @@ fn _asciify(_text: Strings, _font: Option<Strings>) -> StringResult {
             }
         }
         if !found {
-            throw_font_not_found_error();
+            throw_font_not_found_error()?;
         }
         font_argument = format!("&font={font}");
     }
@@ -142,48 +127,22 @@ fn _asciify(_text: Strings, _font: Option<Strings>) -> StringResult {
     Ok(asciifyied_text)
 }
 
-/// puts 2 lines of spaces after the modified text.
-pub fn asciify_str(
-    _text: &str,
-    _font: Option<&str>,
-) -> Result<String, FontNotFoundError> {
-    let text = Strings::Static(_text);
-    let font: Option<Strings> = match _font {
-        Some(_font) => Some(Strings::Static(_font)),
-        None => None,
-    };
-    _asciify(text, font)
-}
-
-
-/// puts 2 lines of spaces after the modified text.
-pub fn asciify_string(
-    _text: String,
-    _font: Option<String>,
-) -> Result<String, FontNotFoundError> {
-    let text = Strings::String(_text);
-    let font: Option<Strings> = match _font {
-        Some(_font) => Some(Strings::String(_font)),
-        None => None,
-    };
-    _asciify(text, font)
-}
-
 use std::error;
-
 
 #[derive(Debug)] // derive std::fmt::Debug on FondNotFoundError
 pub struct BackSlashNMissingError {
     code:    usize,
-    message: String,
+    message: String
 }
 
-
 impl fmt::Display for BackSlashNMissingError {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(
+        &self,
+        f: &mut fmt::Formatter
+    ) -> fmt::Result {
         let err_msg = match self.code {
             404 => "Sorry, Can not find the Page!",
-            _ => "Sorry, something is wrong! Please Try Again!",
+            _ => "Sorry, something is wrong! Please Try Again!"
         };
 
         write!(f, "{}", err_msg)
@@ -194,58 +153,34 @@ fn throw_bask_slash_n_missing_error() -> Result<(), BackSlashNMissingError>
 {
     Err(BackSlashNMissingError {
         code:    404,
-        message: String::from("Page not found"),
+        message: String::from("Page not found")
     })
 }
 
-fn _shift_right_asciified(
-    _asciified_text: Strings,
-    size: usize,
+fn shift_right_asciified(
+    asciified_text: impl AsRef<str>,
+    size: usize
 ) -> Result<String, Box<dyn error::Error>> {
-    let asciified_text: String = match _asciified_text {
-        Strings::Static(_asciified_text) => String::from(_asciified_text),
-        Strings::String(_asciified_text) => _asciified_text,
-    };
+    let asciified_text = asciified_text.as_ref();
 
     if !asciified_text.contains("\n") {
         throw_bask_slash_n_missing_error();
     }
 
-    let result: String = asciified_text
+    let result = asciified_text
         .split("\n")
         .map(|line| " ".repeat(size) + line)
-        .collect::<Vec<String>>()
+        .collect::<Vec<_>>()
         .join("\n");
-
 
     Ok(result)
 }
 
-pub fn shift_right_asciified_str(
-    _text: &str,
-    size: usize,
+fn shift_left_asciifiied_text(
+    asciified_text: impl AsRef<str>,
+    size: usize
 ) -> Result<String, Box<dyn error::Error>> {
-    let text = Strings::Static(_text);
-    _shift_right_asciified(text, size)
-}
-
-pub fn shift_right_asciified_string(
-    _text: String,
-    size: usize,
-) -> Result<String, Box<dyn error::Error>> {
-    let text = Strings::String(_text);
-    _shift_right_asciified(text, size)
-}
-
-
-fn _shift_left_asciifiied_text(
-    _asciified_text: Strings,
-    size: usize,
-) -> Result<String, Box<dyn error::Error>> {
-    let asciified_text: String = match _asciified_text {
-        Strings::Static(_asciified_text) => String::from(_asciified_text),
-        Strings::String(_asciified_text) => _asciified_text,
-    };
+    let asciified_text = asciified_text.as_ref();
 
     if !asciified_text.contains("\n") {
         throw_bask_slash_n_missing_error();
@@ -257,10 +192,8 @@ fn _shift_left_asciifiied_text(
         .collect::<Vec<&str>>()
         .join("\n");
 
-
     Ok(result)
 }
-
 
 pub struct ANSITerm<'ansi_lifetime> {
     pub black:     &'ansi_lifetime str,
@@ -278,7 +211,7 @@ pub struct ANSITerm<'ansi_lifetime> {
     pub underline: &'ansi_lifetime str,
     pub endc:      &'ansi_lifetime str,
     pub inverse:   &'ansi_lifetime str,
-    pub strikeout: &'ansi_lifetime str,
+    pub strikeout: &'ansi_lifetime str
 }
 
 const fn initialize_ansi_term() -> ANSITerm<'static> {
@@ -298,17 +231,15 @@ const fn initialize_ansi_term() -> ANSITerm<'static> {
         underline: "\x1b[4m",
         endc:      "\x1b[0m",
         inverse:   "\x1b[7m",
-        strikeout: "\x1b[9m",
+        strikeout: "\x1b[9m"
     }
 }
 
 pub const ANSIColors: ANSITerm = initialize_ansi_term();
 
-
 #[cfg(test)]
 mod tests {
     use super::ANSIColors;
-
 
     #[test]
     fn test_asciify_str() {
@@ -316,7 +247,6 @@ mod tests {
         assert_eq!(0, 0);
     }
 }
-
 
 struct RGBANSIEscapeCodesStruct {
     pub blue_ocean:    &'static str,
@@ -332,7 +262,7 @@ struct RGBANSIEscapeCodesStruct {
     pub orange:        &'static str,
     pub green_pine:    &'static str,
     pub gray:          &'static str,
-    pub endc:          &'static str,
+    pub endc:          &'static str
 }
 
 const fn initialize_rgb_colors() -> RGBANSIEscapeCodesStruct {
@@ -350,19 +280,502 @@ const fn initialize_rgb_colors() -> RGBANSIEscapeCodesStruct {
         orange:        "\x1b[38;2;230;114;52m",
         green_pine:    "\x1b[38;2;38;199;87m",
         gray:          "\x1b[38;2;108;108;108m",
-        endc:          "\x1b[0m",
+        endc:          "\x1b[0m"
     }
 }
 
-
-
 const RGB_COLORS: RGBANSIEscapeCodesStruct = initialize_rgb_colors();
 
-
 pub enum RGBColorsEnum {
-    Cyan(u8, u8, u8),
+    Cyan(u8, u8, u8)
 }
 
 pub const RGBCyan: RGBColorsEnum = RGBColorsEnum::Cyan(101, 200, 179);
 
+pub const ASCII_FERRIS_LOGO: &'static str = r#"
+█ █         █ █
+▀█  ▄█████▄  █▀
+ ▀▄███▀█▀███▄▀
+ ▄▀███▀▀▀███▀▄
+ █ ▄▀▀▀▀▀▀▀▄ █
+"#;
 
+// ferris animation frames
+// <body>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   ¬   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '-,   -  _'\
+// | '----'
+// </pre>
+// <pre>
+//
+// .~'^'^-, (/
+// \) /  o O  |'
+// '-,   -  _'\
+// | '----'
+// </pre>
+// <pre>
+//
+// .~'^'^-, (/
+// \) /  o O  |'
+// '-,   -  _'\
+// | '----'
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '-,   -  _'\
+// | '----'
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   ¬   _'
+// / '-----' \
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   ¬   _'
+// | '-----' |
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   ¬   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   ¬   _'
+// | '-----' |
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   ¬   _'
+// / '-----' \
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   ¬   _'
+// | '-----' |
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   ¬   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   ¬   _'
+// | '-----' |
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   ¬   _'
+// / '-----' \
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   ¬   _'
+// | '-----' |
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   ¬   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   ¬   _'
+// | '-----' |
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   ¬   _'
+// / '-----' \
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   ¬   _'
+// | '-----' |
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   ¬   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   u   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   u   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   u   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   u   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   u   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   u   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   u   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \/ /  o o  \ \/
+// '_   u   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   u   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \/ /  o o  \ \/
+// '_   u   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   u   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \/ /  o o  \ \/
+// '_   u   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   u   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   ¬   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   ¬   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// /'_  -   ,-'
+// '----' |
+// </pre>
+// <pre>
+//
+// \) ,-^'^'~.
+// '|  O o  \ (/
+// /'_  -   ,-'
+// '----' |
+// </pre>
+// <pre>
+//
+// \) ,-^'^'~.
+// '|  O o  \ (/
+// /'_  -   ,-'
+// '----' |
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// /'_  -   ,-'
+// '----' |
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   ¬   _'
+// / '-----' \
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   ¬   _'
+// | '-----' |
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   ¬   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   ¬   _'
+// | '-----' |
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   ¬   _'
+// / '-----' \
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   ¬   _'
+// | '-----' |
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   ¬   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   ¬   _'
+// | '-----' |
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   ¬   _'
+// / '-----' \
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   ¬   _'
+// | '-----' |
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   ¬   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   ¬   _'
+// | '-----' |
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   ¬   _'
+// / '-----' \
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   ¬   _'
+// | '-----' |
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   ¬   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   u   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   u   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   u   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   u   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   u   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   u   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   u   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \/ /  o o  \ \/
+// '_   u   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   u   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \/ /  o o  \ \/
+// '_   u   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   u   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \/ /  o o  \ \/
+// '_   u   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   u   _'
+// \ '-----' /
+// </pre>
+// <pre>
+//
+// _~^~^~_
+// \) /  o o  \ (/
+// '_   ¬   _'
+// \ '-----' /
+// </pre>
+// </body>

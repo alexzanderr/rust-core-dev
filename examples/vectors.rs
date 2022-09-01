@@ -1,10 +1,8 @@
 fn get_vector() -> Vec<String> {
     let mut new_vector: Vec<String> = Vec::new();
 
-
     new_vector
 }
-
 
 fn main() {
     let mut some_vec = vec![

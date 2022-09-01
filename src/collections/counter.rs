@@ -1,7 +1,3 @@
-
-
-
-
 use core::fmt;
 use std::collections::HashMap;
 use std::fmt::Display;
@@ -10,50 +6,64 @@ use std::fmt::Result;
 use std::hash::Hash;
 use std::str::Chars;
 
-
-
 pub struct Counter {
     _counter_char: HashMap<char, i32>,
-    chars: bool,
-    _counter_int: HashMap<i32, i32>,
+    chars:         bool,
+    _counter_int:  HashMap<i32, i32>
 }
 
-
 impl Counter {
-    fn create_hashmap_from_chars(_char_iter: Chars<'_>) -> HashMap<char, i32> {
+    fn create_hashmap_from_chars(
+        _char_iter: Chars<'_>
+    ) -> HashMap<char, i32> {
         let mut _counter = HashMap::new();
         for _char in _char_iter {
             *_counter.entry(_char).or_insert(0) += 1;
         }
         _counter
     }
+}
 
-    pub fn from_str(_static_string: &str) -> Counter {
-        Counter {
-            _counter_char: Counter::create_hashmap_from_chars(_static_string.chars()),
-            chars: true,
-            _counter_int: HashMap::new(),
+impl Display for Counter {
+    fn fmt(
+        &self,
+        f: &mut Formatter<'_>
+    ) -> Result {
+        if self.chars {
+            write!(f, "{:?}", self._counter_char)
+        } else {
+            write!(f, "{:?}", self._counter_int)
         }
     }
+}
 
-    pub fn from_string(_string: String) -> Counter {
+impl From<&str> for Counter {
+    fn from(_str: &str) -> Self {
         Counter {
-            _counter_char: Counter::create_hashmap_from_chars(_string.chars()),
-            chars: true,
-            _counter_int: HashMap::new()
+            _counter_char: Counter::create_hashmap_from_chars(
+                _str.chars()
+            ),
+            chars:         true,
+            _counter_int:  HashMap::new()
         }
     }
+}
 
-    pub fn from_string_ref(_string_ref: &String) -> Counter {
+impl From<String> for Counter {
+    fn from(_string: String) -> Self {
         Counter {
-            _counter_char: Counter::create_hashmap_from_chars(_string_ref.chars()),
-            chars: true,
-            _counter_int: HashMap::new()
+            _counter_char: Counter::create_hashmap_from_chars(
+                _string.chars()
+            ),
+            chars:         true,
+            _counter_int:  HashMap::new()
         }
     }
+}
 
-    pub fn from_i32(_i32_number: i32) -> Counter {
-        let mut __i32_number: i32 = _i32_number;
+impl From<i32> for Counter {
+    fn from(num: i32) -> Self {
+        let mut __i32_number: i32 = num;
         let mut _counter: HashMap<i32, i32> = HashMap::new();
 
         while __i32_number != 0 {
@@ -64,19 +74,8 @@ impl Counter {
 
         Counter {
             _counter_char: HashMap::new(),
-            chars: false,
-            _counter_int: _counter,
-        }
-    }
-}
-
-
-impl Display for Counter {
-    fn fmt(&self, f: &mut Formatter<'_>) -> Result {
-        if self.chars {
-            write!(f, "{:?}", self._counter_char)
-        } else {
-            write!(f, "{:?}", self._counter_int)
+            chars:         false,
+            _counter_int:  _counter
         }
     }
 }

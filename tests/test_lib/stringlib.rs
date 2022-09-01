@@ -1,11 +1,13 @@
 use pretty_assertions::assert_eq;
 use rstest::rstest;
 
-use pad::{Alignment, PadStr};
+use pad::{
+    Alignment,
+    PadStr
+};
 
 use core_dev::stringlib::align_left;
 use core_dev::stringlib::align_right;
-
 
 #[cfg(test)]
 mod test_align_center {
@@ -20,7 +22,7 @@ mod test_align_center {
     fn against_str(
         #[case] content: &str,
         #[case] width: usize,
-        #[case] expected: &str,
+        #[case] expected: &str
     ) {
         let result = align_center(content, width);
         println!("'{}'", result);
@@ -28,13 +30,11 @@ mod test_align_center {
     }
 }
 
-
 #[cfg(test)]
 mod test_align_string_builder {
     use core_dev::stringlib::AlignString;
     use super::Alignment;
     use super::rstest;
-
 
     #[rstest]
     #[case("content", 20, Alignment::Middle, "      content       ")]
@@ -45,13 +45,10 @@ mod test_align_string_builder {
         #[case] content: &str,
         #[case] width: usize,
         #[case] alignment: Alignment,
-        #[case] expected: &str,
+        #[case] expected: &str
     ) {
         let mut builder = AlignString::new(content);
-        let mut builder = builder
-            .width(width)
-            .alignment(alignment);
-
+        let mut builder = builder.width(width).alignment(alignment);
 
         let result = builder.build();
         println!("'{}'", result);

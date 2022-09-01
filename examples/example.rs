@@ -1,6 +1,6 @@
 #[derive(Debug)]
 struct Number {
-    value: i32,
+    value: i32
 }
 
 impl From<i32> for Number {

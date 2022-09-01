@@ -1,5 +1,7 @@
 use crate::traits::StringExtended;
 
+use std::fmt::Write as FmtWrite;
+
 #[derive(Default, Debug, Copy, Clone)]
 pub struct TimeAttributes {
     pub millennials: usize,
@@ -10,9 +12,8 @@ pub struct TimeAttributes {
     pub days:        usize,
     pub hours:       usize,
     pub minutes:     usize,
-    pub seconds:     usize,
+    pub seconds:     usize
 }
-
 
 impl TimeAttributes {
     pub fn all_zeros(&self) -> bool {
@@ -27,44 +28,46 @@ impl TimeAttributes {
             && self.seconds == 0
     }
 
-
     /// this will format like this
     /// 10d 10h 5m 30s
     pub fn format_with_letters(&self) -> String {
         let mut display = String::new();
         if self.millennials != 0 {
-            display.push_str(&format!("{}mil", self.millennials));
+            write!(display, "{}mil", self.millennials);
         }
         if self.centuries != 0 {
-            display.push_str(&format!(" {}cen", self.centuries));
+            write!(display, " {}cen", self.centuries);
         }
         if self.decades != 0 {
-            display.push_str(&format!(" {}dec", self.decades));
+            write!(display, " {}dec", self.decades);
         }
         if self.years != 0 {
-            display.push_str(&format!(" {}y", self.years));
+            write!(display, " {}y", self.years);
         }
         if self.weeks != 0 {
-            display.push_str(&format!(" {}w", self.weeks));
+            write!(display, " {}w", self.weeks);
         }
         if self.days != 0 {
-            display.push_str(&format!(" {}d", self.days));
+            write!(display, " {}d", self.days);
         }
         if self.hours != 0 {
-            display.push_str(&format!(" {}h", self.hours));
+            write!(display, " {}h", self.hours);
         }
         if self.minutes != 0 {
-            display.push_str(&format!(" {}m", self.minutes));
+            write!(display, " {}m", self.minutes);
         }
         if self.seconds != 0 {
-            display.push_str(&format!(" {}s", self.seconds));
+            write!(display, " {}s", self.seconds);
         } else {
-            display.push_str(" 0s");
+            write!(display, " 0s");
         }
         display.trim().to_string()
     }
 
-    pub fn format_as_clock_with_level(&self, level: usize) -> String {
+    pub fn format_as_clock_with_level(
+        &self,
+        level: usize
+    ) -> String {
         let display = self.format_as_clock();
         let items = display.split_to_vec_str(":");
         // let mut level = 0;
@@ -89,109 +92,118 @@ impl TimeAttributes {
         let mut display = String::new();
         if self.millennials != 0 {
             if self.millennials < 10 {
-                display.push_str(&format!("000{}:", self.millennials))
+                write!(display, "000{}:", self.millennials);
             } else if self.millennials < 100 {
-                display.push_str(&format!("00{}:", self.millennials))
+                write!(display, "00{}:", self.millennials);
             } else if self.millennials < 1000 {
-                display.push_str(&format!("0{}:", self.millennials))
+                write!(display, "0{}:", self.millennials);
             } else {
-                display.push_str(&format!("{}:", self.millennials))
+                write!(display, "{}:", self.millennials);
             }
         } else {
-            display.push_str("0000:")
+            write!(display, "0000:");
         }
         if self.centuries != 0 {
             if self.centuries < 10 {
-                display.push_str(&format!("00{}:", self.centuries))
+                write!(display, "00{}:", self.centuries);
             } else if self.centuries < 100 {
-                display.push_str(&format!("0{}:", self.centuries))
+                write!(display, "0{}:", self.centuries);
             } else {
-                display.push_str(&format!("{}:", self.centuries))
+                write!(display, "{}:", self.centuries);
             }
         } else {
-            display.push_str("000:")
+            write!(display, "000:");
         }
         if self.decades != 0 {
             if self.decades < 10 {
-                dbg!("here");
-                display.push_str(&format!("0{}:", self.decades))
+                // dbg!("here");
+                write!(display, "0{}:", self.decades);
             } else {
-                display.push_str(&format!("{}:", self.decades))
+                write!(display, "{}:", self.decades);
             }
         } else {
-            display.push_str("00:")
+            write!(display, "00:");
         }
         if self.years != 0 {
             if self.years < 10 {
-                display.push_str(&format!("0{}:", self.years));
+                write!(display, "0{}:", self.years);
             } else {
-                display.push_str(&format!("{}:", self.years));
+                write!(display, "{}:", self.years);
             }
         } else {
-            display.push_str("00:")
+            write!(display, "00:");
         }
         if self.weeks != 0 {
             if self.weeks < 10 {
-                display.push_str(&format!("0{}:", self.weeks));
+                write!(display, "0{}:", self.weeks);
             } else {
-                display.push_str(&format!("{}:", self.weeks));
+                write!(display, "{}:", self.weeks);
             }
         } else {
-            display.push_str("00:")
+            write!(display, "00:");
         }
         if self.days != 0 {
             if self.days < 10 {
-                display.push_str(&format!("0{}:", self.days));
+                write!(display, "0{}:", self.days);
             } else {
-                display.push_str(&format!("{}:", self.days));
+                write!(display, "{}:", self.days);
             }
         } else {
-            display.push_str("0:")
+            write!(display, "0:");
         }
         if self.hours != 0 {
             if self.hours < 10 {
-                display.push_str(&format!("0{}:", self.hours));
+                write!(display, "0{}:", self.hours);
             } else {
-                display.push_str(&format!("{}:", self.hours));
+                write!(display, "{}:", self.hours);
             }
         } else {
-            display.push_str("00:")
+            write!(display, "00:");
         }
         if self.minutes != 0 {
             if self.minutes < 10 {
-                display.push_str(&format!("0{}:", self.minutes));
+                write!(display, "0{}:", self.minutes);
             } else {
-                display.push_str(&format!("{}:", self.minutes));
+                write!(display, "{}:", self.minutes);
             }
         } else {
-            display.push_str("00:")
+            write!(display, "00:");
         }
         if self.seconds != 0 {
             if self.seconds < 10 {
-                display.push_str(&format!("0{}", self.seconds));
+                write!(display, "0{}:", self.seconds);
             } else {
-                display.push_str(&format!("{}", self.seconds));
+                write!(display, "{}", self.seconds);
             }
         } else {
-            display.push_str("00")
+            write!(display, "00:");
         }
 
         display
     }
 
-    pub fn decrement_seconds(&mut self, by: usize) {
+    pub fn decrement_seconds(
+        &mut self,
+        by: usize
+    ) {
         if self.seconds == 0 {
             self.normalize_decrement();
         }
         self.seconds -= by;
     }
 
-    pub fn decrement_seconds_and_normalize(&mut self, by: usize) {
+    pub fn decrement_seconds_and_normalize(
+        &mut self,
+        by: usize
+    ) {
         self.seconds -= by;
         self.normalize_decrement();
     }
 
-    pub fn print_clock(&self, level: usize) {
+    pub fn print_clock(
+        &self,
+        level: usize
+    ) {
         let clock = self.format_as_clock_with_level(level);
         println!("{}", clock);
     }
@@ -217,8 +229,7 @@ impl TimeAttributes {
                             if self.years == 0 && self.decades > 0 {
                                 self.decades -= 1;
                                 self.years = 10;
-                                if self.decades == 0
-                                    && self.centuries > 0
+                                if self.decades == 0 && self.centuries > 0
                                 {
                                     self.centuries -= 1;
                                     self.decades = 10;
@@ -259,7 +270,6 @@ impl TimeAttributes {
             self.weeks += 1;
             self.days -= 7;
         }
-
 
         while self.weeks > 52 {
             self.years += 1;
@@ -311,13 +321,11 @@ impl TimeAttributes {
             return max_level;
         }
 
-
         if self.years == 0 {
             max_level -= 1;
         } else {
             return max_level;
         }
-
 
         if self.weeks == 0 {
             max_level -= 1;
@@ -325,13 +333,11 @@ impl TimeAttributes {
             return max_level;
         }
 
-
         if self.days == 0 {
             max_level -= 1;
         } else {
             return max_level;
         }
-
 
         if self.hours == 0 {
             max_level -= 1;
@@ -339,13 +345,11 @@ impl TimeAttributes {
             return max_level;
         }
 
-
         if self.minutes == 0 {
             max_level -= 1;
         } else {
             return max_level;
         }
-
 
         if self.seconds == 0 {
             max_level -= 1;
@@ -359,14 +363,13 @@ impl TimeAttributes {
 
 #[derive(Debug)]
 pub struct TimeAttributesBuilder {
-    pub time_attributes: TimeAttributes,
+    pub time_attributes: TimeAttributes
 }
-
 
 impl std::fmt::Display for TimeAttributes {
     fn fmt(
         &self,
-        f: &mut std::fmt::Formatter<'_>,
+        f: &mut std::fmt::Formatter<'_>
     ) -> std::fmt::Result {
         unimplemented!()
     }
@@ -375,51 +378,78 @@ impl std::fmt::Display for TimeAttributes {
 impl TimeAttributesBuilder {
     pub fn default() -> Self {
         TimeAttributesBuilder {
-            time_attributes: TimeAttributes::default(),
+            time_attributes: TimeAttributes::default()
         }
     }
 
-    pub fn seconds(mut self, seconds: usize) -> Self {
+    pub fn seconds(
+        mut self,
+        seconds: usize
+    ) -> Self {
         self.time_attributes.seconds += seconds;
         self
     }
 
-    pub fn minutes(mut self, minutes: usize) -> Self {
+    pub fn minutes(
+        mut self,
+        minutes: usize
+    ) -> Self {
         self.time_attributes.minutes += minutes;
         self
     }
 
-    pub fn hours(mut self, hours: usize) -> Self {
+    pub fn hours(
+        mut self,
+        hours: usize
+    ) -> Self {
         self.time_attributes.hours += hours;
         self
     }
 
-    pub fn days(mut self, days: usize) -> Self {
+    pub fn days(
+        mut self,
+        days: usize
+    ) -> Self {
         self.time_attributes.days += days;
         self
     }
 
-    pub fn weeks(mut self, weeks: usize) -> Self {
+    pub fn weeks(
+        mut self,
+        weeks: usize
+    ) -> Self {
         self.time_attributes.weeks += weeks;
         self
     }
 
-    pub fn years(mut self, years: usize) -> Self {
+    pub fn years(
+        mut self,
+        years: usize
+    ) -> Self {
         self.time_attributes.years += years;
         self
     }
 
-    pub fn decades(mut self, decades: usize) -> Self {
+    pub fn decades(
+        mut self,
+        decades: usize
+    ) -> Self {
         self.time_attributes.decades += decades;
         self
     }
 
-    pub fn centuries(mut self, centuries: usize) -> Self {
+    pub fn centuries(
+        mut self,
+        centuries: usize
+    ) -> Self {
         self.time_attributes.centuries += centuries;
         self
     }
 
-    pub fn millennials(mut self, millennials: usize) -> Self {
+    pub fn millennials(
+        mut self,
+        millennials: usize
+    ) -> Self {
         self.time_attributes.millennials += millennials;
         self
     }

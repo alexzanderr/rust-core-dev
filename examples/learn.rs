@@ -1,7 +1,7 @@
 // A type to represent a path, split into its component parts
 #[derive(Debug)]
 struct Path {
-    parts: Vec<String>,
+    parts: Vec<String>
 }
 impl Path {
     pub fn new(path: &str) -> Path {
@@ -10,7 +10,7 @@ impl Path {
                 .to_string()
                 .split("/")
                 .map(|s| s.to_string())
-                .collect(),
+                .collect()
         }
     }
 }
@@ -20,18 +20,21 @@ impl Path {
 // a directory, else considered a file.
 struct Dir {
     name:     String,
-    children: Vec<Dir>,
+    children: Vec<Dir>
 }
 
 impl Dir {
     fn new(name: &str) -> Dir {
         Dir {
             name:     name.to_string(),
-            children: Vec::<Dir>::new(),
+            children: Vec::<Dir>::new()
         }
     }
 
-    fn find_child(&mut self, name: &str) -> Option<&mut Dir> {
+    fn find_child(
+        &mut self,
+        name: &str
+    ) -> Option<&mut Dir> {
         for c in self.children.iter_mut() {
             if c.name == name {
                 return Some(c);
@@ -40,9 +43,12 @@ impl Dir {
         None
     }
 
-    fn add_child<T>(&mut self, leaf: T) -> &mut Self
+    fn add_child<T>(
+        &mut self,
+        leaf: T
+    ) -> &mut Self
     where
-        T: Into<Dir>, {
+        T: Into<Dir> {
         self.children.push(leaf.into());
         self
     }
@@ -87,7 +93,11 @@ fn main() {
     print_dir(&top, 0);
 }
 
-fn build_tree(node: &mut Dir, parts: &Vec<String>, depth: usize) {
+fn build_tree(
+    node: &mut Dir,
+    parts: &Vec<String>,
+    depth: usize
+) {
     if depth < parts.len() {
         let item = &parts[depth];
 
@@ -98,16 +108,19 @@ fn build_tree(node: &mut Dir, parts: &Vec<String>, depth: usize) {
                 node.add_child(d);
                 match node.find_child(&item) {
                     Some(d2) => d2,
-                    None => panic!("Got here!"),
+                    None => panic!("Got here!")
                 }
-            },
+            }
         };
         build_tree(&mut dir, parts, depth + 1);
     }
 }
 
 // A function to print a Dir in format similar to unix `tree` command.
-fn print_dir(dir: &Dir, depth: usize) {
+fn print_dir(
+    dir: &Dir,
+    depth: usize
+) {
     if depth != 0 {
         let indent = (depth - 1) * 4;
         let tabs = " ".repeat(indent);

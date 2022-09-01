@@ -1,7 +1,6 @@
 use pretty_assertions::assert_eq;
 use rstest::rstest;
 
-
 #[cfg(test)]
 mod index_of_vector_trait {
     use super::assert_eq;
@@ -40,12 +39,10 @@ mod index_of_vector_trait {
         }
     }
 
-
     #[cfg(test)]
     mod method_index_from {
         use super::IndexOfVector;
         use super::assert_eq;
-
 
         #[test]
         fn against_vec_i32() {
@@ -69,7 +66,6 @@ mod index_of_vector_trait {
         }
     }
 
-
     #[cfg(test)]
     mod method_rindex_of {
         use super::IndexOfVector;
@@ -82,7 +78,6 @@ mod index_of_vector_trait {
             assert_eq!(index, some_vector.len() - 1);
         }
     }
-
 
     #[cfg(test)]
     mod method_rindex_from {
@@ -98,7 +93,7 @@ mod index_of_vector_trait {
             #[case] vector_i32: Vec<i32>,
             #[case] element: i32,
             #[case] start_index: usize,
-            #[case] expected_index: Option<usize>,
+            #[case] expected_index: Option<usize>
         ) {
             let found_index =
                 vector_i32.rindex_from(&element, start_index);
@@ -113,19 +108,17 @@ mod max_vector_trait {
     use super::assert_eq;
     use super::rstest;
 
-
     #[rstest]
     #[case(vec![2, 0, 2, 2, 1, 3i8], Some(3))]
     #[case(vec![2, 0, 2, 8, 1, 3i8], Some(8))]
     #[case(vec![], None)]
     fn against_vec_i8(
         #[case] vector: Vec<i8>,
-        #[case] expected_max: Option<i8>,
+        #[case] expected_max: Option<i8>
     ) {
         let found_index = vector.find_max();
         assert_eq!(found_index, expected_max);
     }
-
 
     #[rstest]
     #[case(vec![2, 0, 2, 2, 1, 3i16], Some(3))]
@@ -133,12 +126,11 @@ mod max_vector_trait {
     #[case(vec![], None)]
     fn against_vec_i16(
         #[case] vector: Vec<i16>,
-        #[case] expected_max: Option<i16>,
+        #[case] expected_max: Option<i16>
     ) {
         let found_index = vector.find_max();
         assert_eq!(found_index, expected_max);
     }
-
 
     #[rstest]
     #[case(vec![2, 0, 2, 2, 1, 3], Some(3))]
@@ -146,12 +138,11 @@ mod max_vector_trait {
     #[case(vec![], None)]
     fn against_vec_i32(
         #[case] vector: Vec<i32>,
-        #[case] expected_max: Option<i32>,
+        #[case] expected_max: Option<i32>
     ) {
         let found_index = vector.find_max();
         assert_eq!(found_index, expected_max);
     }
-
 
     #[rstest]
     #[case(vec![2, 0, 2, 2, 1, 3i64], Some(3))]
@@ -159,12 +150,11 @@ mod max_vector_trait {
     #[case(vec![], None)]
     fn against_vec_i64(
         #[case] vector: Vec<i64>,
-        #[case] expected_max: Option<i64>,
+        #[case] expected_max: Option<i64>
     ) {
         let found_index = vector.find_max();
         assert_eq!(found_index, expected_max);
     }
-
 
     #[rstest]
     #[case(vec![2, 0, 2, 2, 1, 3i128], Some(3))]
@@ -172,7 +162,7 @@ mod max_vector_trait {
     #[case(vec![], None)]
     fn against_vec_i128(
         #[case] vector: Vec<i128>,
-        #[case] expected_max: Option<i128>,
+        #[case] expected_max: Option<i128>
     ) {
         let found_index = vector.find_max();
         assert_eq!(found_index, expected_max);
@@ -213,7 +203,7 @@ world
 these
 are
 some
-lines",
+lines"
             );
             let mut lines = some_string.split_lines().into_iter();
             assert_eq!(lines.next(), Some("hello".to_string()));
@@ -258,7 +248,6 @@ lines";
         }
     }
 
-
     #[cfg(test)]
     mod method_get_char {
         use std::ops::Index;
@@ -281,7 +270,6 @@ lines";
             assert_eq!(found_char, 'r');
         }
     }
-
 
     #[cfg(test)]
     mod method_capitalize {

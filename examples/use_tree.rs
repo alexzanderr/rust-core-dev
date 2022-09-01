@@ -2,26 +2,21 @@ use std::str::Split;
 use core_dev::collections::TreeNode;
 use core_dev::traits::StringExtended;
 
-
 // https://stackoverflow.com/questions/60479260/how-to-convert-a-flat-list-of-directory-paths-to-hierarchical-struct-in-rust
 
 fn main() {
     let mut head = TreeNode::new(
         String::from("Python List"),
         String::from("./python_list/README.md"),
-        None,
+        None
     );
-
 
     let mut leaves = Vec::new();
     for int in (0..5i32).rev() {
         leaves.push(TreeNode {
             name:  int.to_string() + "luigi",
-            path:  format!(
-                "./{}/README.md",
-                int.to_string() + "luigi"
-            ),
-            nodes: None,
+            path:  format!("./{}/README.md", int.to_string() + "luigi"),
+            nodes: None
         });
     }
 
@@ -31,33 +26,27 @@ fn main() {
 
     // head.print_children();
 
-
     let mut leaves = Vec::new();
     for int in (0..5i32).rev() {
         leaves.push(TreeNode {
             name:  int.to_string() + "mario",
-            path:  format!(
-                "./{}/README.md",
-                int.to_string() + "luigi"
-            ),
-            nodes: None,
+            path:  format!("./{}/README.md", int.to_string() + "luigi"),
+            nodes: None
         });
     }
     head.add_node(TreeNode::new(
         "saluatre".to_string(),
         String::from("./salutare/readme.md"),
-        None,
+        None
     ));
-
 
     head.add_node(TreeNode::new(
         "inner".to_string(),
         String::from("./inner/readme.md"),
-        Some(leaves),
+        Some(leaves)
     ));
 
     // head.print_children(0);
-
 
     // let allch = head.get_all_children();
     // println!("{:?}", allch);
@@ -65,7 +54,6 @@ fn main() {
     head.generate_summary(0);
     TreeNode::sort_nodes_alphabetically(&mut head);
     head.generate_summary(0);
-
 
     // python_list
     //     methods
@@ -81,7 +69,6 @@ fn main() {
     //         readme.md
     //     asd
     //         readme.md
-
 
     // astea trebuie neaparat sa fie in ordinea astsa
     // fara / primele
@@ -105,7 +92,6 @@ fn main() {
         String::from("introduction.md"),
     ];
 
-
     let mut all_readmes = vec![];
     for line in lines.iter() {
         if line.contains("README.md") {
@@ -113,9 +99,8 @@ fn main() {
         }
     }
 
-    all_readmes.sort_by_key(|item| {
-        item.split("/").collect::<Vec<&str>>().len()
-    });
+    all_readmes
+        .sort_by_key(|item| item.split("/").collect::<Vec<&str>>().len());
 
     for line in lines.iter() {
         if line.contains("README.md") {
@@ -128,7 +113,6 @@ fn main() {
         }
     }
 
-
     for readme in all_readmes.iter() {
         println!("{}", readme);
     }
@@ -136,7 +120,7 @@ fn main() {
     fn build_tree(
         root: &mut TreeNode,
         items: &Vec<String>,
-        index: usize,
+        index: usize
     ) {
         if index < items.len() {
             let item = &items[index];
@@ -150,22 +134,18 @@ fn main() {
                     let new_node = TreeNode::new(
                         item.clone(),
                         "./".to_string() + &items.join("/"),
-                        Some(vec![]),
+                        Some(vec![])
                     );
                     root.add_node(new_node);
                     root.find_node(&item).unwrap()
-                },
+                }
             };
             build_tree(&mut new_node, items, index + 1);
         }
     }
 
-    let mut root = TreeNode::new(
-        "head".to_string(),
-        "---".to_string(),
-        Some(vec![]),
-    );
-
+    let mut root =
+        TreeNode::new("head".to_string(), "---".to_string(), Some(vec![]));
 
     for line in all_readmes {
         if line.contains("/") {
@@ -173,8 +153,8 @@ fn main() {
             build_tree(&mut root, &items, 0);
         } else {
             if let Some(nodes) = &mut root.nodes {
-                let title = line.split(".").collect::<Vec<&str>>()[0]
-                    .capitalize();
+                let title =
+                    line.split(".").collect::<Vec<&str>>()[0].capitalize();
 
                 nodes.push(TreeNode::new(title, line.clone(), None));
             }
@@ -186,8 +166,7 @@ fn main() {
             for node in nodes {
                 let item = &node.name;
                 let formatted_name = if item.contains(".") {
-                    item.split(".").collect::<Vec<&str>>()[0]
-                        .capitalize()
+                    item.split(".").collect::<Vec<&str>>()[0].capitalize()
                 } else if item.contains("_") {
                     item.split("_")
                         .map(|s| s.capitalize())

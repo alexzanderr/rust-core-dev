@@ -36,3 +36,12 @@ generate random i32
 
 # macro rules
 - https://danielkeep.github.io/tlborm/book/mbe-macro-rules.html
+
+# cargo cmd
+- https://github.com/danreeves/cargo-cmd
+
+
+# performance book
+- https://nnethercote.github.io/perf-book/linting.html#basics
+- https://blog.katona.me/2019/12/29/Rust-Lifetimes-and-Iterators/
+- https://stackoverflow.com/questions/29008127/why-are-rust-executables-so-huge/54842093#54842093

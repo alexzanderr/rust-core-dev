@@ -1,13 +1,7 @@
-
-
-
-
-
 use pretty_assertions::assert_eq;
 
 use rstest::rstest;
 use rstest::fixture;
-
 
 #[cfg(test)]
 mod binary_search_trait {
@@ -16,7 +10,6 @@ mod binary_search_trait {
 
     // use core_dev::algorithms::traits::BinarySearch;
     use super::assert_eq;
-
 
     #[test]
     fn against_i8() {
@@ -30,19 +23,21 @@ mod binary_search_trait {
     // This function will be automatically called with a variety of inputs. Since this is a unit function,
     // the test will pass as long as it doesn't panic. You could also return a `Testable` value like a `bool`
     #[quickcheck]
-    fn binary_search_doesnt_panic(input: Vec<i64>, target: i64) {
+    fn binary_search_doesnt_panic(
+        input: Vec<i64>,
+        target: i64
+    ) {
         println!("{:?} - {}", input, target);
         let result = input.binary_search(target);
         println!("{:?}", result)
         // factorial(input);
     }
-
-
 }
 
-
 #[fixture]
-pub fn fixture() -> u32 { 42 }
+pub fn fixture() -> u32 {
+    42
+}
 
 #[rstest]
 fn should_success(fixture: u32) {
@@ -57,8 +52,7 @@ fn should_success(fixture: u32) {
 /// If you need to just providing a bunch of values for which you need to run your test, you can use #[values(list, of, values)] argument attribute:
 #[rstest]
 fn should_be_invalid(
-    #[values(None, Some(""), Some("    "))]
-    value: Option<&str>
+    #[values(None, Some(""), Some("    "))] value: Option<&str>
 ) {
     // assert!(!valid(value))
 }
@@ -78,8 +72,10 @@ fn test_two_sum(
     assert_eq!(result, expected_result);
 }
 
-
-use rstest_reuse::{self, *};
+use rstest_reuse::{
+    self,
+    *
+};
 
 // #[template]
 // #[rstest]
@@ -103,7 +99,10 @@ use std::net::SocketAddr;
 #[rstest]
 #[case("1.2.3.4:8080", 8080)]
 #[case("127.0.0.1:9000", 9000)]
-fn check_port(#[case] addr: SocketAddr, #[case] expected: u16) {
+fn check_port(
+    #[case] addr: SocketAddr,
+    #[case] expected: u16
+) {
     assert_eq!(expected, addr.port());
 }
 

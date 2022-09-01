@@ -21,7 +21,6 @@ use std::io::Write;
 
 use color_backtrace::install as _color_backtrace_install;
 
-
 fn worker(iterations: i32) -> i32 {
     let mut counter = 0;
     for _iter in 1..iterations {
@@ -48,9 +47,7 @@ fn main() {
         .unwrap()
     });
 
-
-    let result =
-        SpinnerDotsThread::<String>::run_default(closure.clone());
+    let result = SpinnerDotsThread::<String>::run_default(closure.clone());
     if let Err(result) = result {
         println!("{}", result);
     }

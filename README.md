@@ -2,6 +2,15 @@
 ![logo](https://github.com/alexzanderr/rust-core-dev/blob/main/static/img/logo/rust-core-dev-improved.png?raw=True)
 
 <p align="center">
+	<a href="https://github.com/Pocco81/auto-save.nvim/stargazers">
+		<img alt="Stars" src="https://img.shields.io/github/stars/Pocco81/auto-save.nvim?style=for-the-badge&logo=starship&color=C9CBFF&logoColor=D9E0EE&labelColor=302D41"></a>
+	<a href="https://github.com/Pocco81/auto-save.nvim/issues">
+		<img alt="Issues" src="https://img.shields.io/github/issues/Pocco81/auto-save.nvim?style=for-the-badge&logo=bilibili&color=F5E0DC&logoColor=D9E0EE&labelColor=302D41"></a>
+	<a href="https://github.com/Pocco81/auto-save.nvim">
+		<img alt="Repo Size" src="https://img.shields.io/github/repo-size/Pocco81/auto-save.nvim?color=%23DDB6F2&label=SIZE&logo=codesandbox&style=for-the-badge&logoColor=D9E0EE&labelColor=302D41"/></a>
+</p>
+
+<p align="center">
     <a href="https://alexzanderr.github.io/rust-core-dev/book/index.html">
         <img src="https://github.com/alexzanderr/rust-core-dev/actions/workflows/deploy_book.yaml/badge.svg" alt="book_deploy">
     </a>

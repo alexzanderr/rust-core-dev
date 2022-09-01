@@ -8,14 +8,13 @@ use termion::input::MouseTerminal;
 
 use termion::cursor::{
     self,
-    DetectCursorPos,
+    DetectCursorPos
 };
 
 use termion::event::*;
 use termion::raw::IntoRawMode;
 use termion::raw::RawTerminal;
 
-use core::slice::SlicePattern;
 use std::borrow::BorrowMut;
 use std::io::Read;
 use std::io::Stdout;
@@ -23,17 +22,16 @@ use std::io::{
     stdin,
     stdout,
     Stdin,
-    Write,
+    Write
 };
 use std::process::Command;
 
 use pad::{
     PadStr,
-    Alignment,
+    Alignment
 };
 
 type MouseStdout = MouseTerminal<RawTerminal<Stdout>>;
-
 
 fn init_term() -> (Stdin, MouseStdout) {
     let mut stdin = stdin();
@@ -69,9 +67,9 @@ use termion::screen::AlternateScreen;
 
 pub struct Screen {
     stdin:  Stdin,
-    screen: AlternateScreen<MouseStdout>, /* you might need to do this
-                                           * stdout: Rc<RefCell<MouseStdout>>,
-                                           * because i cant use screen.events(&mut self) { and use screen.println() here mutable 2 times in a row } */
+    screen: AlternateScreen<MouseStdout> /* you might need to do this
+                                          * stdout: Rc<RefCell<MouseStdout>>,
+                                          * because i cant use screen.events(&mut self) { and use screen.println() here mutable 2 times in a row } */
 }
 
 impl Default for Screen {
@@ -80,11 +78,10 @@ impl Default for Screen {
     }
 }
 
-
 pub enum StringFormatting {
     Centered,
     Left,
-    Right,
+    Right
 }
 
 impl Screen {
@@ -93,7 +90,7 @@ impl Screen {
         let screen = AlternateScreen::from(stdout);
         Self {
             stdin,
-            screen,
+            screen
         }
     }
 
@@ -128,7 +125,7 @@ impl Screen {
         &mut self,
         text: &str,
         y: usize,
-        x: usize,
+        x: usize
     ) -> &mut Self {
         write!(
             self.screen,
@@ -146,7 +143,7 @@ impl Screen {
         &mut self,
         lines: &[&str],
         y: usize,
-        x: usize,
+        x: usize
     ) -> &mut Self {
         for (index, line) in lines.iter().enumerate() {
             write!(
@@ -170,38 +167,28 @@ impl Screen {
     // │   asd    │
     // └──────────┘
 
-
     pub fn draw_rectangle(
         &mut self,
         width: usize,
         text: &[&str],
         y: usize,
         x: usize,
-        formatting: Option<StringFormatting>,
+        formatting: Option<StringFormatting>
     ) -> &mut Self {
         let mut rectangle_vec =
             vec![format!("┌{}┐\n", "─".repeat(width - 2))];
         for line in text {
             let line = if let Some(ref formatting) = formatting {
                 match formatting {
-                    StringFormatting::Centered => line.pad(
-                        width - 2,
-                        ' ',
-                        Alignment::Middle,
-                        true,
-                    ),
-                    StringFormatting::Left => line.pad(
-                        width - 2,
-                        ' ',
-                        Alignment::Left,
-                        true,
-                    ),
-                    StringFormatting::Right => line.pad(
-                        width - 2,
-                        ' ',
-                        Alignment::Right,
-                        true,
-                    ),
+                    StringFormatting::Centered => {
+                        line.pad(width - 2, ' ', Alignment::Middle, true)
+                    },
+                    StringFormatting::Left => {
+                        line.pad(width - 2, ' ', Alignment::Left, true)
+                    },
+                    StringFormatting::Right => {
+                        line.pad(width - 2, ' ', Alignment::Right, true)
+                    },
                 }
             } else {
                 line.to_string()
@@ -236,9 +223,11 @@ impl Screen {
         self.stdin.by_ref().events()
     }
 
-    pub fn handle_keys_loop<F>(&mut self, mut handler: F)
-    where
-        F: FnMut(&Event, &mut Screen), {
+    pub fn handle_keys_loop<F>(
+        &mut self,
+        mut handler: F
+    ) where
+        F: FnMut(&Event, &mut Screen) {
         let stdin = stdin();
         for e in stdin.events() {
             let e = e.unwrap();
@@ -246,7 +235,7 @@ impl Screen {
                 Event::Key(Key::Ctrl('c')) => break,
                 _ => {
                     handler(&e, self);
-                },
+                }
             }
             // after_match(&e, self);
         }
@@ -339,12 +328,12 @@ pub enum TermClear {
     AfterCursor(termion::clear::AfterCursor),
     BeforeCursor(termion::clear::BeforeCursor),
     CurrentLine(termion::clear::CurrentLine),
-    UntilNewlin(termion::clear::UntilNewline),
+    UntilNewlin(termion::clear::UntilNewline)
 }
 
 pub enum TermCursor {
     Hide(termion::cursor::Hide),
-    Show(termion::cursor::Show),
+    Show(termion::cursor::Show)
 }
 
 pub struct ScreenPrintBuilder {
@@ -353,7 +342,7 @@ pub struct ScreenPrintBuilder {
     x:       Option<u16>,
     y:       Option<u16>,
     clear:   Option<TermClear>,
-    cursor:  Option<TermCursor>,
+    cursor:  Option<TermCursor>
 }
 
 impl Default for ScreenPrintBuilder {
@@ -361,7 +350,6 @@ impl Default for ScreenPrintBuilder {
         Self::new()
     }
 }
-
 
 impl ScreenPrintBuilder {
     pub fn new() -> Self {
@@ -372,16 +360,22 @@ impl ScreenPrintBuilder {
             x:       None,
             y:       None,
             clear:   None,
-            cursor:  None,
+            cursor:  None
         }
     }
 
-    pub fn x(mut self, x: u16) -> Self {
+    pub fn x(
+        mut self,
+        x: u16
+    ) -> Self {
         self.x = Some(x);
         self
     }
 
-    pub fn y(mut self, y: u16) -> Self {
+    pub fn y(
+        mut self,
+        y: u16
+    ) -> Self {
         self.y = Some(y);
         self
     }
@@ -407,7 +401,10 @@ impl ScreenPrintBuilder {
         self
     }
 
-    pub fn print(&mut self, line: &str) {
+    pub fn print(
+        &mut self,
+        line: &str
+    ) {
         let (x, y) = (self.x.unwrap(), self.y.unwrap());
         let mut stdout = self.stdout.as_deref_mut().unwrap();
         write!(

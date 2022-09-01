@@ -21,7 +21,6 @@ use termion::event::Event;
 
 use core_dev::terminal::screen::StringFormatting;
 
-
 fn main() {
     color_backtrace::install();
 
@@ -33,7 +32,7 @@ fn main() {
         &["asd", "asd"],
         1,
         1,
-        Some(StringFormatting::Centered),
+        Some(StringFormatting::Centered)
     );
 
     screen.draw_rectangle(
@@ -41,7 +40,7 @@ fn main() {
         &["asd", "asd"],
         10,
         1,
-        Some(StringFormatting::Left),
+        Some(StringFormatting::Left)
     );
 
     screen.draw_rectangle(
@@ -49,7 +48,7 @@ fn main() {
         &["asd", "asd"],
         20,
         1,
-        Some(StringFormatting::Right),
+        Some(StringFormatting::Right)
     );
 
     screen.refresh();
@@ -93,7 +92,6 @@ fn main() {
         .refresh()
         .print("i just made builder pattern for curses screen");
 
-
     // tried to borrow as immutable
     screen.handle_keys_loop(|event, screen| match event {
         Event::Key(Key::Char('a')) => {
@@ -102,9 +100,8 @@ fn main() {
         Event::Key(Key::Char('b')) => {
             screen.print("hello there -a ", 15, 1).refresh();
         },
-        _ => {},
+        _ => {}
     });
-
 
     screen.end_screen();
 }

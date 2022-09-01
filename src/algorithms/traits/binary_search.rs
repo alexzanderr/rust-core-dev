@@ -1,5 +1,8 @@
 pub trait BinarySearch<T> {
-    fn binary_search(&self, element: T) -> Option<usize>;
+    fn binary_search(
+        &self,
+        element: T
+    ) -> Option<usize>;
 }
 
 // inspiration from
@@ -41,4 +44,4 @@ macro_rules! impl_binary_search_for {
     )*)
 }
 
-impl_binary_search_for!{ i8 i16 i32 i64 i128 }
+impl_binary_search_for! { i8 i16 i32 i64 i128 }

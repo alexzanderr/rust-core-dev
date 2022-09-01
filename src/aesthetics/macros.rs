@@ -29,7 +29,6 @@ macro_rules! red_bold {
     }};
 }
 
-
 #[macro_export]
 macro_rules! red_underline {
     [$argument: expr] => {{
@@ -61,7 +60,6 @@ macro_rules! red_italic {
     }};
 }
 
-
 #[macro_export]
 macro_rules! red_underline_italic {
     [$argument: expr] => {{
@@ -77,7 +75,6 @@ macro_rules! red_underline_italic {
         colored_string
     }};
 }
-
 
 #[macro_export]
 macro_rules! yellow {
@@ -110,7 +107,6 @@ mod logs {
             colored_string
         }};
     }
-
 
     #[macro_export]
     macro_rules! WARNING {

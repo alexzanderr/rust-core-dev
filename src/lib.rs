@@ -7,26 +7,24 @@
     unused_mut,
     unused_must_use,
     non_camel_case_types,
+    // clippy::module_inception,
+    // clippy::useless_format,
+    // clippy::derive_hash_xor_eq,
+    // clippy::unused_io_amount,
+    // clippy::new_without_default
 )]
+// https://nnethercote.github.io/perf-book/linting.html#basics
+#![deny(clippy::perf)]
+// language features are only for nightly
 // #![feature(const_for)]
-#![feature(unboxed_closures)]
-#![feature(slice_pattern)]
+// #![feature(unboxed_closures)]
+// #![feature(slice_pattern)]
 // #![feature(trait_alias)]
-#![allow(
-    clippy::module_inception,
-    clippy::useless_format,
-    clippy::derive_hash_xor_eq,
-    clippy::unused_io_amount,
-    clippy::new_without_default
-)]
 
-pub mod util;
-
-#[cfg(feature = "core")]
-pub mod core;
+#[cfg(feature = "utils")]
+pub mod utils;
 
 pub mod collections;
-
 
 #[cfg(feature = "synh")]
 pub mod synh;
@@ -48,7 +46,6 @@ pub mod spinners;
 #[cfg(feature = "random")]
 pub mod random;
 
-
 #[cfg(feature = "icons")]
 pub mod icons;
 
@@ -67,7 +64,6 @@ pub mod datetime;
 #[cfg(feature = "audio")]
 pub mod audio;
 
-
 #[cfg(feature = "terminal")]
 pub mod terminal;
 
@@ -80,8 +76,10 @@ pub mod imagelib;
 #[cfg(feature = "weather")]
 pub mod weather;
 
-
 #[cfg(feature = "email")]
 pub mod email;
 
 pub mod system;
+
+#[cfg(feature = "prelude")]
+pub mod prelude;

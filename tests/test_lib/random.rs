@@ -11,18 +11,16 @@
     non_camel_case_types
 )]
 
-
 #[cfg(test)]
 mod random {
     use rstest::rstest;
     use pretty_assertions::assert_eq;
 
-
     #[cfg(test)]
     mod fn_random_choice {
         use super::{
             rstest,
-            assert_eq,
+            assert_eq
         };
         use core_dev::random::random_choice;
 
@@ -32,12 +30,11 @@ mod random {
         #[case(vec![1], Some(&1))]
         fn special_cases(
             #[case] collection: Vec<i32>,
-            #[case] expected_result: Option<&i32>,
+            #[case] expected_result: Option<&i32>
         ) {
             let item = random_choice(&collection);
             assert_eq!(item, expected_result);
         }
-
 
         #[rstest]
         #[case(vec![1, 2, 3i32])]
@@ -77,12 +74,11 @@ mod random {
         #[case(vec![1], Some(&1))]
         fn special_cases(
             #[case] collection: Vec<i32>,
-            #[case] expected_result: Option<&i32>,
+            #[case] expected_result: Option<&i32>
         ) {
             let item = collection.random_choice();
             assert_eq!(item, expected_result);
         }
-
 
         #[rstest]
         #[case(vec![1, 2, 3i32])]
@@ -116,10 +112,8 @@ mod random {
         fn against_vec_string(#[case] collection: Vec<&str>) {
             dbg!(&collection);
             // im too lazy to write .to_string() for every string in the above cases
-            let collection: Vec<String> = collection
-                .into_iter()
-                .map(|s| s.to_string())
-                .collect();
+            let collection: Vec<String> =
+                collection.into_iter().map(|s| s.to_string()).collect();
 
             let item = collection.random_choice();
             // first of all to check if the function works
@@ -143,12 +137,11 @@ mod random {
         }
     }
 
-
     #[cfg(test)]
     mod random_float {
         use super::{
             rstest,
-            assert_eq,
+            assert_eq
         };
         use core_dev::random::traits::RandomFloat;
         use core_dev::random::traits::RandomInt;

@@ -1,13 +1,12 @@
 use pretty_assertions::assert_eq;
 use rstest::rstest;
 
-
 #[cfg(test)]
 mod index_of_vector_trait {
     use super::assert_eq;
     use super::rstest;
 
-    use core_dev::shell::run_shell_command;
+    use core_dev::shell::run_shell;
     use core_dev::shell::get_output_of_command;
 
     #[test]
@@ -32,11 +31,10 @@ mod index_of_vector_trait {
         // ");
     }
 
-
     #[test]
     fn test_run_shell_command() {
         let command = "exa";
-        let output = run_shell_command(command);
+        let output = run_shell(command);
         assert_eq!(output, true);
     }
 

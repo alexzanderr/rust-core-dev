@@ -3,7 +3,7 @@ use criterion::{
     BenchmarkId,
     black_box,
     criterion_group,
-    criterion_main,
+    criterion_main
 };
 
 use core_dev::algorithms::two_sum;
@@ -11,14 +11,10 @@ use core_dev::algorithms::two_sum;
 pub fn bench_two_sum(criterion: &mut Criterion) {
     criterion.bench_function("two+wum", |bencher| {
         bencher.iter(move || {
-            two_sum(
-                black_box(vec![10, 10, 10, 10, 10]),
-                black_box(20),
-            )
+            two_sum(black_box(vec![10, 10, 10, 10, 10]), black_box(20))
         });
     });
 }
-
 
 pub fn bench_two_sum_2(criterion: &mut Criterion) {
     let mut group = criterion.benchmark_group("two_sum");
@@ -27,9 +23,9 @@ pub fn bench_two_sum_2(criterion: &mut Criterion) {
         [
             vec![123i32, 123, 123, 123, 2, 8],
             vec![10, 10, 10, 10, 10i32],
-            vec![],
+            vec![]
         ]
-        .iter(),
+        .iter()
     ) {
         group.bench_with_input(
             BenchmarkId::from_parameter(target),
@@ -43,20 +39,13 @@ pub fn bench_two_sum_2(criterion: &mut Criterion) {
                     // Also note the use of `black_box` (https://docs.rs/criterion/0.3.0/criterion/fn.black_box.html),
                     // which ensures that this call doesn't get optimized away by the compiler. If your
                     // benchmarks seem spooky fast, be suspicious.
-                    two_sum(
-                        black_box((&nums).to_vec()),
-                        black_box(target),
-                    )
+                    two_sum(black_box((&nums).to_vec()), black_box(target))
                 });
-            },
+            }
         );
     };
 }
 
-criterion_group!(benches,
-    bench_two_sum,
-    bench_two_sum_2
-);
-
+criterion_group!(benches, bench_two_sum, bench_two_sum_2);
 
 criterion_main!(benches);

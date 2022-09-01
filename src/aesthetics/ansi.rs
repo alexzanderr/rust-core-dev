@@ -2,7 +2,6 @@ use hex_color::HexColor;
 use ansi_term::Color::RGB;
 use paste::paste;
 
-
 pub fn hex_to_rgb(hex: &str) -> ansi_term::Color {
     let hex_color = hex.parse::<HexColor>().unwrap();
     let r = hex_color.r;
@@ -12,20 +11,18 @@ pub fn hex_to_rgb(hex: &str) -> ansi_term::Color {
 }
 
 pub struct RGBColors {
-    pub onedark_background: ansi_term::Color,
+    pub onedark_background: ansi_term::Color
 }
 
 impl RGBColors {
     pub fn new() -> Self {
         Self {
-            onedark_background: hex_to_rgb("#282C34"),
+            onedark_background: hex_to_rgb("#282C34")
         }
     }
 }
 
-
 use ansi_term::Color;
-
 
 fn match_color_by_name(name: &str) -> Color {
     match name {
@@ -37,12 +34,9 @@ fn match_color_by_name(name: &str) -> Color {
         "cyan" => Color::Cyan,
         "white" => Color::White,
         "black" => Color::Black,
-        _ => {
-            Color::White
-        }
+        _ => Color::White
     }
 }
-
 
 macro_rules! impl_function_for_color {
     ($($color_name:ident, $color_type:expr)*) => ($(
@@ -88,7 +82,6 @@ macro_rules! impl_function_for_color {
     )*)
 }
 
-
 impl_function_for_color! {
     red, Color::Red
     green, Color::Green
@@ -98,9 +91,6 @@ impl_function_for_color! {
     cyan, Color::Cyan
     white, Color::White
 }
-
-
-
 
 /// use programmer must import these
 /// use paste::paste;
@@ -117,5 +107,3 @@ macro_rules! impl_fixed_color_function {
         }
     };
 }
-
-

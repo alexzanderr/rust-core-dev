@@ -1,5 +1,3 @@
-
-
 use rand::Rng;
 use rand::random;
 use rand::thread_rng;
@@ -19,11 +17,11 @@ macro_rules! impl_random_float_for {
     )*)
 }
 
-impl_random_float_for!{ f32 f64 }
-
+impl_random_float_for! { f32 f64 }
 
 pub trait RandomInt<I>
-where I: Sized {
+where
+    I: Sized {
     fn random_int() -> I;
 }
 
@@ -38,8 +36,7 @@ macro_rules! impl_random_int_for {
     )*)
 }
 
-impl_random_int_for!{ i8 i16 i32 i64 i128 }
-
+impl_random_int_for! { i8 i16 i32 i64 i128 }
 
 pub trait RandomChoice<T> {
     fn random_choice(&self) -> Option<&T>;
@@ -47,6 +44,7 @@ pub trait RandomChoice<T> {
 
 use super::random_choice;
 
+#[macro_export]
 macro_rules! impl_random_choice_for_vec_of {
     ($($type:ty)*) => ($(
     // ($type: ident) => {
@@ -58,8 +56,43 @@ macro_rules! impl_random_choice_for_vec_of {
     )*)
 }
 
-impl_random_choice_for_vec_of!{ i8 i16 i32 i64 i128 }
-impl_random_choice_for_vec_of!{ u8 u16 u32 u64 u128 }
-impl_random_choice_for_vec_of!{ String }
+impl_random_choice_for_vec_of! { i8 i16 i32 i64 i128 }
+impl_random_choice_for_vec_of! { u8 u16 u32 u64 u128 }
+impl_random_choice_for_vec_of! { String }
+
+pub trait RandomIndex<T> {
+    fn random_index(&self) -> usize;
+}
+
+use super::random_index;
+
+macro_rules! impl_random_index_for_vec_of {
+    // ($type: ident) => {
 
 
+    ($($type:ty)*) => ($(
+        impl RandomIndex<$type> for Vec<$type> {
+            fn random_index(&self) -> usize {
+                random_index(self)
+            }
+        }
+    )*)
+}
+
+impl_random_index_for_vec_of! { i8 i16 i32 i64 i128 }
+impl_random_index_for_vec_of! { u8 u16 u32 u64 u128 }
+impl_random_index_for_vec_of! { String }
+
+#[macro_export]
+macro_rules! impl_random_index_for_vec_of {
+    ($($type:ty)*) => ($(
+        use rand::Rng;
+        use rand::thread_rng;
+
+        impl RandomIndex<$type> for Vec<$type> {
+            fn random_index(&self) -> usize {
+                thread_rng().gen_range(0..self.len()).into()
+            }
+        }
+    )*)
+}

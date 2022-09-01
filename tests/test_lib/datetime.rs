@@ -2,7 +2,6 @@ use rstest::rstest;
 use pretty_assertions::assert_eq;
 use pretty_assertions::assert_ne;
 
-
 #[cfg(test)]
 mod mod_datetime {
     use super::rstest;
@@ -25,7 +24,6 @@ mod mod_datetime {
                 .seconds(10)
                 .minutes(100)
                 .normalize();
-
 
             let mut ta = ta_builder.build();
             println!("{:?}", ta);
@@ -57,7 +55,7 @@ mod mod_datetime {
         use std::collections::HashMap;
 
         fn build_time_map<'a>(
-            from_keys_and_values: Vec<(&'a str, i128)>,
+            from_keys_and_values: Vec<(&'a str, i128)>
         ) -> HashMap<&'a str, i128> {
             let mut time_map: HashMap<&str, i128> = vec![
                 ("millennials", 0),
@@ -93,7 +91,7 @@ mod mod_datetime {
         ]))]
         fn test_seconds_to_time_map(
             #[case] seconds: usize,
-            #[case] expected_time_map: HashMap<&str, i128>,
+            #[case] expected_time_map: HashMap<&str, i128>
         ) {
             let result_time_map = seconds_to_time_map(seconds);
             assert_eq!(result_time_map, expected_time_map);

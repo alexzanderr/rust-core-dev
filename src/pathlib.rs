@@ -4,14 +4,13 @@ use std::path::Path;
 use crate::traits::StringExtended;
 use std::fs;
 
-
 pub fn get_files_recursive<P>(
     target_folder: P,
     relative_to_cwd: bool,
-    to_ignore: Option<&Vec<&str>>,
+    to_ignore: Option<&Vec<&str>>
 ) -> Vec<String>
 where
-    P: AsRef<Path>, {
+    P: AsRef<Path> {
     let target_folder = target_folder.as_ref().display().to_string();
     let mut found_dot = false;
     let glob_pattern: String;
@@ -71,24 +70,20 @@ where
                         fs::canonicalize(entry)
                             .unwrap()
                             .display()
-                            .to_string(),
+                            .to_string()
                     );
                 }
             } else if relative_to_cwd {
                 files.push(entry);
             } else {
                 files.push(
-                    fs::canonicalize(&path)
-                        .unwrap()
-                        .display()
-                        .to_string(),
+                    fs::canonicalize(&path).unwrap().display().to_string()
                 );
             }
         }
     }
     files
 }
-
 
 // pub fn get_paths_recursive<P>(
 //     target_folder: P,

@@ -1,8 +1,5 @@
-
-
 use std::collections::HashMap;
 
-///
 /// usage
 ///
 /// ```rust
@@ -21,21 +18,23 @@ pub fn two_sum(
         let minus_ten_to_minus_9 = i32::pow(-10, 9);
         let ten_to_minus_9 = i32::pow(10, 9);
 
-        if target_sum < minus_ten_to_minus_9
-        || target_sum > ten_to_minus_9 {
+        if target_sum < minus_ten_to_minus_9 || target_sum > ten_to_minus_9
+        {
             panic!("target must be between (-10^9, 10^9)")
         }
 
         if nums_vector.len() < 2
-        || nums_vector.len() as i32 > i32::pow(10, 4) {
+            || nums_vector.len() as i32 > i32::pow(10, 4)
+        {
             panic!("len or arr must be between (2, 10^4)")
         }
 
         for value in nums_vector.iter() {
-            if value < &i32::pow(-10, 9)
-            || value > &i32::pow(10, 9) {
-                panic!("every element of the array
-                    must be between (-10^9, 10^9)")
+            if value < &i32::pow(-10, 9) || value > &i32::pow(10, 9) {
+                panic!(
+                    "every element of the array
+                    must be between (-10^9, 10^9)"
+                )
             }
         }
     }
@@ -50,7 +49,7 @@ pub fn two_sum(
             pos_table.insert(*value, index as i32);
         }
     }
-    return vec![];
+    vec![]
 }
 
 /// Note that the modern solution (cargo test -- --show-output) doesn't work in doctests defined in a Markdown code-fence in the docstring of your functions. Only println! (etc.) statements done in a concrete #[test] block will be respected.
@@ -62,7 +61,10 @@ pub fn two_sum(
 /// https://stackoverflow.com/a/71402219/12172291
 /// markdown quites are required to work as doc test
 /// ```rust
-/// use core_dev::algorithms::{max, min};
+/// use core_dev::algorithms::{
+///     max,
+///     min
+/// };
 /// let _chars = vec!['c', 'a', 'a', 'a', 'c', 'x', 'x'];
 /// println!("{}", min(&_chars));
 ///
@@ -85,9 +87,6 @@ pub fn max<T: PartialOrd + Copy>(_vec: &[T]) -> T {
     _max
 }
 
-///
-///
-///
 /// usage
 /// let _chars = vec!['c', 'a', 'a', 'a', 'c', 'x', 'x'];
 /// print(min(&_chars));
@@ -100,10 +99,6 @@ pub fn max<T: PartialOrd + Copy>(_vec: &[T]) -> T {
 /// print(max(&_numbers));
 /// print(min(&_numbers));
 /// print(max(&_numbers));
-///
-///
-///
-///
 pub fn min<T: PartialOrd + Copy>(_vec: &[T]) -> T {
     let mut _min = _vec[0];
     for &value in _vec.iter().skip(1) {
