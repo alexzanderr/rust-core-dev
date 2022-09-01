@@ -1,10 +1,15 @@
 
+# rust specific
 dist
-
 target
 Cargo.lock
 
 
+# text editors specific
 *.sublime-*
 .vscode
+
 scripts
+
+# git specific
+worktrees
