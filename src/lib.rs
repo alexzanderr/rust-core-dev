@@ -14,7 +14,7 @@
     // clippy::new_without_default
 )]
 // https://nnethercote.github.io/perf-book/linting.html#basics
-#![deny(clippy::perf)]
+#![deny(clippy::all)]
 // language features are only for nightly
 // #![feature(const_for)]
 // #![feature(unboxed_closures)]

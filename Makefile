@@ -45,3 +45,9 @@ lint:
 
 watch_check_tests_and_all:
 	@cargo watch -w=src -w=tests -w=examples --shell='cargo check --features all && ./scripts/compiled.sh || ./scripts/compile_error.sh' -c
+
+
+clippy-dirty:
+	clippy-dirty -- --all-features -- -D clippy::all
+cld: clippy-dirty
+

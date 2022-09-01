@@ -9,7 +9,7 @@ great todos for improvement
     https://www.vogella.com/tutorials/AsciiDoc/article.html
     https://gitlab.eclipse.org/eclipse-wg/asciidoc-wg/asciidoc.org/-/blob/main/awesome-asciidoc.adoc
     https://stackoverflow.com/questions/4779582/markdown-and-including-multiple-files
-- [ ]
+- [ ] add codecov https://github.com/taiki-e/cargo-llvm-cov, yaml github action from this reame
 - [ ]
 - [ ]
 - [ ]

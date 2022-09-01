@@ -7,14 +7,16 @@ pub fn linux_notification<'a>(
     title: &'a str,
     message: &'a str,
     icon_path: &'a str,
-    timeout: u32
+    timeout: u32,
 ) {
     Notification::new()
         .icon(
-            std::path::Path::canonicalize(std::path::Path::new(icon_path))
-                .unwrap()
-                .to_str()
-                .unwrap()
+            std::path::Path::canonicalize(std::path::Path::new(
+                icon_path,
+            ))
+            .unwrap()
+            .to_str()
+            .unwrap(),
         )
         .summary(title)
         .body(message)
@@ -41,7 +43,7 @@ pub fn linux_notification_from_image_buffer_async<'a>(
     title: &'a str,
     message: &'a str,
     image_buffer: Option<&ImageBuffer<Rgba<u8>, Vec<u8>>>,
-    timeout: u32
+    timeout: u32,
 ) {
     let mut notif_handler = Notification::new();
     let mut notif_handler = notif_handler.summary(title);
@@ -56,7 +58,8 @@ pub fn linux_notification_from_image_buffer_async<'a>(
         let image_data = image_buffer.to_vec();
         let height = image_buffer.height() as i32;
         let width = image_buffer.width() as i32;
-        let image = Image::from_rgba(width, height, image_data).unwrap();
+        let image =
+            Image::from_rgba(width, height, image_data).unwrap();
         notif_handler = notif_handler.image_data(image);
     }
     // .action("restart", "restart")
@@ -74,9 +77,10 @@ pub fn linux_notification_from_image_buffer_and_wait<'a, F>(
     image_buffer: Option<&ImageBuffer<Rgba<u8>, Vec<u8>>>,
     timeout: u32,
     actions: Option<&[(&str, &str)]>,
-    invocation_closure: F
+    invocation_closure: F,
 ) where
-    F: FnOnce(&str) {
+    F: FnOnce(&str),
+{
     let mut notif_handler = Notification::new();
     let mut notif_handler = notif_handler.summary(title);
 
@@ -90,7 +94,8 @@ pub fn linux_notification_from_image_buffer_and_wait<'a, F>(
         let image_data = image_buffer.to_vec();
         let height = image_buffer.height() as i32;
         let width = image_buffer.width() as i32;
-        let image = Image::from_rgba(width, height, image_data).unwrap();
+        let image =
+            Image::from_rgba(width, height, image_data).unwrap();
         notif_handler = notif_handler.image_data(image);
     }
     // .action("restart", "restart")
@@ -135,9 +140,9 @@ pub fn linux_notification_from_image_buffer_and_wait<'a, F>(
 
 #[derive(Debug)]
 pub struct NotificationHandler {
-    title:        String,
+    title: String,
     image_buffer: Option<ImageBufferType>,
-    timeout:      u64
+    timeout: u64,
 }
 
 #[cfg(feature = "image")]
@@ -147,10 +152,11 @@ use crate::imagelib::ImageBufferType;
 
 impl NotificationHandler {
     pub fn new(
-        title: String,
+        title: &str,
         image_bytes: Option<&[u8]>,
-        timeout: u64
+        timeout: u64,
     ) -> Self {
+        let title = title.to_string();
         match image_bytes {
             Some(image_bytes) => {
                 let image_buffer =
@@ -158,20 +164,20 @@ impl NotificationHandler {
                 Self {
                     title,
                     image_buffer: Some(image_buffer),
-                    timeout
+                    timeout,
                 }
             },
             None => Self {
                 title,
                 image_buffer: None,
-                timeout
-            }
+                timeout,
+            },
         }
     }
 
     pub fn timeout(
         &mut self,
-        timeout: u64
+        timeout: u64,
     ) -> &mut Self {
         self.timeout = timeout;
         self
@@ -179,13 +185,13 @@ impl NotificationHandler {
 
     pub fn send_notification_async(
         &self,
-        message: &str
+        message: &str,
     ) {
         linux_notification_from_image_buffer_async(
             &self.title,
             message,
             self.image_buffer.as_ref(),
-            self.timeout as u32
+            self.timeout as u32,
         )
     }
 
@@ -193,7 +199,7 @@ impl NotificationHandler {
         &self,
         message: &str,
         actions: Option<&[(&str, &str)]>,
-        invocation_closure: impl FnOnce(&str)
+        invocation_closure: impl FnOnce(&str),
     ) {
         linux_notification_from_image_buffer_and_wait(
             &self.title,
@@ -201,7 +207,7 @@ impl NotificationHandler {
             self.image_buffer.as_ref(),
             self.timeout as u32,
             actions,
-            invocation_closure
+            invocation_closure,
         )
     }
 }
